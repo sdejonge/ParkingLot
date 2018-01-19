@@ -1,6 +1,6 @@
 /**
  * Added a comment to push to github.
- * testing commit
+ * Testing commit
  */
 
 import java.util.Random;
