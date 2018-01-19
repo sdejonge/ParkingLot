@@ -1,3 +1,7 @@
+/**
+ * Added a comment to push to github.
+ */
+
 import java.util.Random;
 
 public class Simulator {
