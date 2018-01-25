@@ -17,12 +17,13 @@ public class SimulatorView extends JFrame {
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
         
         carParkView = new CarParkView();
+        JButton button = new JButton("Value");
+        carParkView.add(button);
 
         Container contentPane = getContentPane();
         contentPane.add(carParkView, BorderLayout.CENTER);
         pack();
         setVisible(true);
-
         updateView();
     }
 
