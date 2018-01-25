@@ -17,9 +17,11 @@ public class SimulatorView extends JFrame {
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
         
         carParkView = new CarParkView();
+
         /**
          * Initiate a new button
          */
+
         JButton button = new JButton("Value");
         carParkView.add(button);
 
