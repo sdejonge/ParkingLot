@@ -189,4 +189,7 @@ public class Simulator {
         exitCarQueue.addCar(car);
     }
 
+    private void test(){
+        System.out.println("Hello world!");
+    }
 }
