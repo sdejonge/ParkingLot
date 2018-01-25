@@ -18,12 +18,6 @@ public class SimulatorView extends JFrame {
         
         carParkView = new CarParkView();
 
-        /**
-         * Initiate a new button
-         */
-
-        JButton button = new JButton("Value");
-        carParkView.add(button);
 
         Container contentPane = getContentPane();
         contentPane.add(carParkView, BorderLayout.CENTER);
