@@ -47,6 +47,12 @@ public class Simulator {
     }
 
     public static void main(String[] args) {
+        System.out.println("Main methode start");
+        SetupView sview = new SetupView();
+        System.out.println("setup klaar vanuit de main methode");
+        sview = null; //verwijderd het setupscherm om data vrij te maken
+        System.out.println("SetupView is verwijderd");
+
     	Simulator sim = new Simulator();
     	sim.run();
     }
