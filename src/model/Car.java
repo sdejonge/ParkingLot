@@ -1,24 +1,26 @@
+package model;
+
 import java.awt.*;
 
-public abstract class Car {
+public abstract class Car extends AbstractModel{
 
-    private Location location;
+    private LocationModel location;
     private int minutesLeft;
     private boolean isPaying;
     private boolean hasToPay;
 
     /**
-     * Constructor for objects of class Car
+     * Constructor for objects of class model.Car
      */
     public Car() {
 
     }
 
-    public Location getLocation() {
+    public LocationModel getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(LocationModel location) {
         this.location = location;
     }
 

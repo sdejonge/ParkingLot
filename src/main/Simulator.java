@@ -1,9 +1,10 @@
-/**
- * Added a comment to push to github.
- * testing commit
- */
+package main;
 
 import java.util.Random;
+
+import model.*;
+import view.*;
+import controller.*;
 
 public class Simulator {
 
@@ -28,7 +29,7 @@ public class Simulator {
     int weekDayPassArrivals= 50; // average number of arriving cars per hour
     int weekendPassArrivals = 5; // average number of arriving cars per hour
 
-    int enterSpeed = 3; // number of cars that can enter per minute
+    int enterSpeed = 12; // number of cars that can enter per minute
     int paymentSpeed = 7; // number of cars that can pay per minute
     int exitSpeed = 5; // number of cars that can leave per minute
 
@@ -44,11 +45,6 @@ public class Simulator {
         for (int i = 0; i < 10000; i++) {
             tick();
         }
-    }
-
-    public static void main(String[] args) {
-    	Simulator sim = new Simulator();
-    	sim.run();
     }
     
     private void tick() {
@@ -113,7 +109,7 @@ public class Simulator {
     			simulatorView.getNumberOfOpenSpots()>0 && 
     			i<enterSpeed) {
             Car car = queue.removeCar();
-            Location freeLocation = simulatorView.getFirstFreeLocation();
+            LocationModel freeLocation = simulatorView.getFirstFreeLocation();
             simulatorView.setCarAt(freeLocation, car);
             i++;
         }
@@ -188,5 +184,4 @@ public class Simulator {
     	simulatorView.removeCarAt(car.getLocation());
         exitCarQueue.addCar(car);
     }
-
 }

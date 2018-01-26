@@ -1,3 +1,7 @@
+package model;
+
+import view.Observer;
+
 import java.util.Random;
 import java.awt.*;
 
@@ -13,5 +17,10 @@ public class ParkingPassCar extends Car {
     
     public Color getColor(){
     	return COLOR;
+    }
+
+    @Override
+    public void registerObserver(Observer observer) {
+
     }
 }

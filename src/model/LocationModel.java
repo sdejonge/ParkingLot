@@ -1,13 +1,15 @@
-public class Location {
+package model;
+
+public class LocationModel extends AbstractModel{
 
     private int floor;
     private int row;
     private int place;
 
     /**
-     * Constructor for objects of class Location
+     * Constructor for objects of class model.LocationModel
      */
-    public Location(int floor, int row, int place) {
+    public LocationModel(int floor, int row, int place) {
         this.floor = floor;
         this.row = row;
         this.place = place;
@@ -17,8 +19,8 @@ public class Location {
      * Implement content equality.
      */
     public boolean equals(Object obj) {
-        if(obj instanceof Location) {
-            Location other = (Location) obj;
+        if(obj instanceof LocationModel) {
+            LocationModel other = (LocationModel) obj;
             return floor == other.getFloor() && row == other.getRow() && place == other.getPlace();
         }
         else {

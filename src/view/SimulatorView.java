@@ -1,7 +1,11 @@
+package view;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class SimulatorView extends JFrame {
+import model.*;
+
+public class SimulatorView extends AbstractDisplayPane {
     private CarParkView carParkView;
     private int numberOfFloors;
     private int numberOfRows;
@@ -9,7 +13,8 @@ public class SimulatorView extends JFrame {
     private int numberOfOpenSpots;
     private Car[][][] cars;
 
-    public SimulatorView(int numberOfFloors, int numberOfRows, int numberOfPlaces) {
+    public SimulatorView(int numberOfFloors, int numberOfRows, int numberOfPlaces, Observable observable) {
+        super(observable);
         this.numberOfFloors = numberOfFloors;
         this.numberOfRows = numberOfRows;
         this.numberOfPlaces = numberOfPlaces;
@@ -18,11 +23,17 @@ public class SimulatorView extends JFrame {
         
         carParkView = new CarParkView();
 
+        /**
+         * Initiate a new button
+         */
+
+        JButton button = new JButton("Value");
+        carParkView.add(button);
+
         Container contentPane = getContentPane();
         contentPane.add(carParkView, BorderLayout.CENTER);
         pack();
         setVisible(true);
-
         updateView();
     }
 
@@ -46,14 +57,14 @@ public class SimulatorView extends JFrame {
     	return numberOfOpenSpots;
     }
     
-    public Car getCarAt(Location location) {
+    public Car getCarAt(LocationModel location) {
         if (!locationIsValid(location)) {
             return null;
         }
         return cars[location.getFloor()][location.getRow()][location.getPlace()];
     }
 
-    public boolean setCarAt(Location location, Car car) {
+    public boolean setCarAt(LocationModel location, Car car) {
         if (!locationIsValid(location)) {
             return false;
         }
@@ -67,7 +78,7 @@ public class SimulatorView extends JFrame {
         return false;
     }
 
-    public Car removeCarAt(Location location) {
+    public Car removeCarAt(LocationModel location) {
         if (!locationIsValid(location)) {
             return null;
         }
@@ -81,11 +92,11 @@ public class SimulatorView extends JFrame {
         return car;
     }
 
-    public Location getFirstFreeLocation() {
+    public LocationModel getFirstFreeLocation() {
         for (int floor = 0; floor < getNumberOfFloors(); floor++) {
             for (int row = 0; row < getNumberOfRows(); row++) {
                 for (int place = 0; place < getNumberOfPlaces(); place++) {
-                    Location location = new Location(floor, row, place);
+                    LocationModel location = new LocationModel(floor, row, place);
                     if (getCarAt(location) == null) {
                         return location;
                     }
@@ -99,7 +110,7 @@ public class SimulatorView extends JFrame {
         for (int floor = 0; floor < getNumberOfFloors(); floor++) {
             for (int row = 0; row < getNumberOfRows(); row++) {
                 for (int place = 0; place < getNumberOfPlaces(); place++) {
-                    Location location = new Location(floor, row, place);
+                    LocationModel location = new LocationModel(floor, row, place);
                     Car car = getCarAt(location);
                     if (car != null && car.getMinutesLeft() <= 0 && !car.getIsPaying()) {
                         return car;
@@ -114,7 +125,7 @@ public class SimulatorView extends JFrame {
         for (int floor = 0; floor < getNumberOfFloors(); floor++) {
             for (int row = 0; row < getNumberOfRows(); row++) {
                 for (int place = 0; place < getNumberOfPlaces(); place++) {
-                    Location location = new Location(floor, row, place);
+                    LocationModel location = new LocationModel(floor, row, place);
                     Car car = getCarAt(location);
                     if (car != null) {
                         car.tick();
@@ -124,7 +135,7 @@ public class SimulatorView extends JFrame {
         }
     }
 
-    private boolean locationIsValid(Location location) {
+    private boolean locationIsValid(LocationModel location) {
         int floor = location.getFloor();
         int row = location.getRow();
         int place = location.getPlace();
@@ -132,77 +143,6 @@ public class SimulatorView extends JFrame {
             return false;
         }
         return true;
-    }
-    
-    private class CarParkView extends JPanel {
-        
-        private Dimension size;
-        private Image carParkImage;    
-    
-        /**
-         * Constructor for objects of class CarPark
-         */
-        public CarParkView() {
-            size = new Dimension(0, 0);
-        }
-    
-        /**
-         * Overridden. Tell the GUI manager how big we would like to be.
-         */
-        public Dimension getPreferredSize() {
-            return new Dimension(800, 500);
-        }
-    
-        /**
-         * Overriden. The car park view component needs to be redisplayed. Copy the
-         * internal image to screen.
-         */
-        public void paintComponent(Graphics g) {
-            if (carParkImage == null) {
-                return;
-            }
-    
-            Dimension currentSize = getSize();
-            if (size.equals(currentSize)) {
-                g.drawImage(carParkImage, 0, 0, null);
-            }
-            else {
-                // Rescale the previous image.
-                g.drawImage(carParkImage, 0, 0, currentSize.width, currentSize.height, null);
-            }
-        }
-    
-        public void updateView() {
-            // Create a new car park image if the size has changed.
-            if (!size.equals(getSize())) {
-                size = getSize();
-                carParkImage = createImage(size.width, size.height);
-            }
-            Graphics graphics = carParkImage.getGraphics();
-            for(int floor = 0; floor < getNumberOfFloors(); floor++) {
-                for(int row = 0; row < getNumberOfRows(); row++) {
-                    for(int place = 0; place < getNumberOfPlaces(); place++) {
-                        Location location = new Location(floor, row, place);
-                        Car car = getCarAt(location);
-                        Color color = car == null ? Color.white : car.getColor();
-                        drawPlace(graphics, location, color);
-                    }
-                }
-            }
-            repaint();
-        }
-    
-        /**
-         * Paint a place on this car park view in a given color.
-         */
-        private void drawPlace(Graphics graphics, Location location, Color color) {
-            graphics.setColor(color);
-            graphics.fillRect(
-                    location.getFloor() * 260 + (1 + (int)Math.floor(location.getRow() * 0.5)) * 75 + (location.getRow() % 2) * 20,
-                    60 + location.getPlace() * 10,
-                    20 - 1,
-                    10 - 1); // TODO use dynamic size or constants
-        }
     }
 
 }
