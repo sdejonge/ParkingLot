@@ -32,12 +32,12 @@ public class Simulator {
     int paymentSpeed = 7; // number of cars that can pay per minute
     int exitSpeed = 5; // number of cars that can leave per minute
 
-    public Simulator() {
+    public Simulator(int NoF, int NoR, int NoP) {
         entranceCarQueue = new CarQueue();
         entrancePassQueue = new CarQueue();
         paymentCarQueue = new CarQueue();
         exitCarQueue = new CarQueue();
-        simulatorView = new SimulatorView(3, 6, 30);
+        simulatorView = new SimulatorView(NoF, NoR, NoP);
     }
 
     public void run() {
@@ -49,11 +49,14 @@ public class Simulator {
     public static void main(String[] args) {
         System.out.println("Main methode start");
         SetupView sview = new SetupView();
+        sview.WachtenOpGebruiker(); //wacht totdat de gebruiker klaar is in de SetupView
+        int[] setupWaardes = sview.setupWaardes();
+
         System.out.println("setup klaar vanuit de main methode");
         sview = null; //verwijderd het setupscherm om data vrij te maken
         System.out.println("SetupView is verwijderd");
 
-    	Simulator sim = new Simulator();
+    	Simulator sim = new Simulator(setupWaardes[0], setupWaardes[1], setupWaardes[2]);
     	sim.run();
     }
     
