@@ -9,9 +9,16 @@ import java.awt.*;
 
 public abstract class Car {
 
+    //Location of the car object
     private Location location;
+
+
     private int minutesLeft;
+
+
     private boolean isPaying;
+
+
     private boolean hasToPay;
 
     /**
