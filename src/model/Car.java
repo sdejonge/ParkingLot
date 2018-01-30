@@ -3,22 +3,24 @@ package model;
 import java.awt.*;
 
 /**
+ * This class contains information regarding the cars in the parking lot.
+ *
  * @author S. de Jonge
  * @version 30-01-2018
  */
 
 public abstract class Car {
 
-    //Location of the car object
+    //Location of the car object within the parking lot.
     private Location location;
 
-
+    //Amount of minutes remaining of the car object that's staying in the parking lot.
     private int minutesLeft;
 
-
+    //Contains information if the customer is currently paying or not.
     private boolean isPaying;
 
-
+    //Contains information wether the customer has to pay or already paid.
     private boolean hasToPay;
 
     /**
