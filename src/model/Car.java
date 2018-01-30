@@ -2,6 +2,11 @@ package model;
 
 import java.awt.*;
 
+/**
+ * @author S. de Jonge
+ * @version 30-01-2018
+ */
+
 public abstract class Car {
 
     private Location location;
