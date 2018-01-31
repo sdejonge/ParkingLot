@@ -24,5 +24,6 @@ public class SimRunner {
         System.out.println("SetupView is verwijderd");
 
         SimulatorModel sim = new SimulatorModel(setupWaardes[0], setupWaardes[1], setupWaardes[2]);
+        sim.run();
     }
 }
