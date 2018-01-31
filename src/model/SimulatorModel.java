@@ -14,6 +14,7 @@ public class SimulatorModel {
     private CarQueue entrancePassQueue;
     private CarQueue paymentCarQueue;
     private CarQueue exitCarQueue;
+
     private SimulatorView simView;
 
     private int day = 0;

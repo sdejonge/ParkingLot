@@ -5,6 +5,7 @@ public class Location {
     private int floor;
     private int row;
     private int place;
+    boolean voorParPass; //houd bij op het plek openbaar is of voor Abbonementhouders
 
     /**
      * Constructor for objects of class model.Location
