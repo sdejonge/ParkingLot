@@ -64,12 +64,27 @@ public class CarParkView extends JPanel {
                 for(int place = 0; place < model.getNumberOfPlaces(); place++) {
                     Location location = new Location(floor, row, place);
                     Car car = model.getCarAt(location);
-                    Color color = car == null ? Color.white : car.getColor();
+
+                    Color color = setColor(car, location);
                     drawPlace(graphics, location, color);
                 }
             }
         }
         repaint();
+    }
+
+    private Color setColor(Car car, Location location) {
+        if (car == null) {
+            if (location.getPlace() < 20){
+                return(Color.GRAY);
+            }
+            else {
+                return(Color.CYAN);
+            }
+        }
+        else {
+             return(car.getColor());
+        }
     }
 
     /**

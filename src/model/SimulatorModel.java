@@ -36,6 +36,7 @@ public class SimulatorModel {
     private int numberOfFloors;
     private int numberOfRows;
     private int numberOfPlaces;
+    private int perReserv; //houd bij welk persentage van de plekken wordt gereserveerd voop abonementhouders
     private int numberOfOpenSpots;
     private Car[][][] cars;
 
