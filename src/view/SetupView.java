@@ -1,3 +1,5 @@
+package view;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -15,38 +17,38 @@ public class SetupView extends JFrame {
         this.add(button,BorderLayout.NORTH);
 
         //voeg textvelden (labels) toe (geen invoerveld)
-        JLabel label1 = new JLabel("Floors: ");
-        JLabel label2 = new JLabel("Rows: ");
-        JLabel label3 = new JLabel("Places: ");
+        JLabel labelFloors = new JLabel("Floors: ");
+        JLabel labelRows = new JLabel("Rows: ");
+        JLabel labelPlaces = new JLabel("Places: ");
 
         //Voeg invoervelden toe
-        JTextField tekst1 = new JTextField();
-        JTextField tekst2 = new JTextField();
-        JTextField tekst3 = new JTextField();
+        JTextField invoerFloors = new JTextField();
+        JTextField invoerRows = new JTextField();
+        JTextField invoerPlaces = new JTextField();
 
         //maak panelen aan
-        JPanel panel1 = new JPanel();
-        JPanel panel2 = new JPanel();
-        JPanel panel3 = new JPanel();
+        JPanel panelFloors = new JPanel();
+        JPanel panelRows = new JPanel();
+        JPanel panelPlaces = new JPanel();
         JPanel mainPanel = new JPanel();
 
         //voeg de componenten toe aan de jpanelen
-        panel1.add(label1);
-        panel1.add(tekst1, BorderLayout.CENTER);
+        panelFloors.add(labelFloors);
+        panelFloors.add(invoerFloors, BorderLayout.CENTER);
 
-        panel2.add(label2);
-        panel2.add(tekst2, BorderLayout.CENTER);
+        panelRows.add(labelRows);
+        panelRows.add(invoerRows, BorderLayout.CENTER);
 
-        panel3.add(label3);
-        panel3.add(tekst3, BorderLayout.CENTER);
+        panelPlaces.add(labelPlaces);
+        panelPlaces.add(invoerPlaces, BorderLayout.CENTER);
 
         //voeg de jpanelen toe aan de mainPanel
-        panel1.setLayout(new BoxLayout(panel1, BoxLayout.LINE_AXIS)); //Set de layout van de jpanel
-        mainPanel.add(panel1);
-        panel2.setLayout(new BoxLayout(panel2, BoxLayout.LINE_AXIS)); //Set de layout van de jpanel
-        mainPanel.add(panel2);
-        panel3.setLayout(new BoxLayout(panel3, BoxLayout.LINE_AXIS)); //Set de layout van de jpanel
-        mainPanel.add(panel3);
+        panelFloors.setLayout(new BoxLayout(panelFloors, BoxLayout.LINE_AXIS)); //Set de layout van de jpanel
+        mainPanel.add(panelFloors);
+        panelRows.setLayout(new BoxLayout(panelRows, BoxLayout.LINE_AXIS)); //Set de layout van de jpanel
+        mainPanel.add(panelRows);
+        panelPlaces.setLayout(new BoxLayout(panelPlaces, BoxLayout.LINE_AXIS)); //Set de layout van de jpanel
+        mainPanel.add(panelPlaces);
 
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS)); //Set de layout van de mainPanel
 
@@ -61,10 +63,9 @@ public class SetupView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 //setVisible(false);//sluit het setup venster
                 setupKlaar = true;
-                teksten[0] = tekst1.getText(); //leest de tekst geschreven in het tekstveld
-                teksten[1] = tekst2.getText(); //leest de tekst geschreven in het tekstveld
-                teksten[2] = tekst3.getText(); //leest de tekst geschreven in het tekstveld
-                System.out.println(teksten[0]);
+                teksten[0] = invoerFloors.getText(); //leest de tekst geschreven in het tekstveld
+                teksten[1] = invoerRows.getText(); //leest de tekst geschreven in het tekstveld
+                teksten[2] = invoerPlaces.getText(); //leest de tekst geschreven in het tekstveld
                 System.out.println("Setup is klaar vanuit de actionlistener");
             }
         });
@@ -99,7 +100,7 @@ public class SetupView extends JFrame {
         }
     }
 
-    private int Parse(String s, int Reserve) {
+    private int Parse(String s, int Reserve) { //een methode die een getal van een string in een int plaats, wanneer dit niet kan, geeft het de reserve waarde terug
         try {
             int intP = Integer.parseInt(s);
             return intP; }
