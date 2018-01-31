@@ -86,7 +86,8 @@ public class SetupView extends JFrame {
 
 
         a[0] = Parse(teksten[0], 3);
-        a[1] = Parse(teksten[1], 6);
+        //a[1] = Parse(teksten[1], 6); Rows instellen zorgt voor problemen, dit is uitgeschakeld totdat het kan worden gefixed
+        a[1] = 6; //Rows krijgt nu altijd een standaardwaarde van 6
         a[2] = Parse(teksten[2], 30);
 
         return a;
