@@ -3,13 +3,17 @@ package main;
 import model.*;
 import view.*;
 
+
+/**
+ * The SimRunner class implements a main method to start the simulator.
+ * @version 30-01-2018
+ */
 public class SimRunner {
 
-    //public static void main(String[] args) {
-    //    SimulatorModel sim = new SimulatorModel(3,6,30);
-    //    sim.run();
-    //}
-
+    /**
+      * Create a new instance of the SimulatorModel() class.
+      */
+  
     public static void main(String[] args) {
         System.out.println("Main methode start");
         SetupView sview = new SetupView();
@@ -20,6 +24,5 @@ public class SimRunner {
         System.out.println("SetupView is verwijderd");
 
         SimulatorModel sim = new SimulatorModel(setupWaardes[0], setupWaardes[1], setupWaardes[2]);
-        sim.run();
     }
 }
