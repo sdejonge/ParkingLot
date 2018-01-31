@@ -3,7 +3,7 @@ package model;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class CarQueue extends AbstractModel{
+public class CarQueue {
     private Queue<Car> queue = new LinkedList<>();
 
     public boolean addCar(Car car) {
