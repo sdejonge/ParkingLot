@@ -36,7 +36,8 @@ public class SimulatorModel {
     private int numberOfFloors;
     private int numberOfRows;
     private int numberOfPlaces;
-    private int perReserv; //houd bij welk persentage van de plekken wordt gereserveerd voop abonementhouders
+    private int perReserv = 34; //houd bij welk persentage van de plekken wordt gereserveerd voor abonementhouders
+    private int absReserv = 0; //houd bij hoeveel plaatsen in elke rij worden gereserveerd voor abonnementhouders, wordt berekend in de constructor
     private int numberOfOpenSpots;
     private Car[][][] cars;
 
@@ -51,6 +52,13 @@ public class SimulatorModel {
         this.numberOfPlaces = numberOfPlaces;
         this.numberOfOpenSpots =numberOfFloors*numberOfRows*numberOfPlaces;
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
+
+        //bereken hoeveel plaatsen uit elke rij, worden gereserveerd voor abonnementhouders
+        float a = perReserv;
+        a = (a / 100);
+        a = (getNumberOfPlaces() * a);
+        absReserv = (int)a;
+        System.out.println("absReserv: " + absReserv);
 
         simView = new SimulatorView(this, numberOfFloors, numberOfRows, numberOfPlaces);
 
@@ -297,5 +305,9 @@ public class SimulatorModel {
             return false;
         }
         return true;
+    }
+
+    public int getReserv() {
+        return(absReserv);
     }
 }

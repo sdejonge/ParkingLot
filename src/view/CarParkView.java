@@ -75,7 +75,8 @@ public class CarParkView extends JPanel {
 
     private Color setColor(Car car, Location location) {
         if (car == null) {
-            if (location.getPlace() < 20){
+
+            if (location.getPlace() < (model.getNumberOfPlaces() - model.getReserv())){
                 return(Color.GRAY);
             }
             else {
