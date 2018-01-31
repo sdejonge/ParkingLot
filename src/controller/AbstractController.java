@@ -1,8 +1,8 @@
 package controller;
 
-import java.awt.event.ActionListener;
+import model.SimulatorModel;
 
-import model.Model;
+import java.awt.event.ActionListener;
 
 /**
  * In this application one controller is modeled. The controller knows the model.
@@ -13,14 +13,14 @@ import model.Model;
  *
  */
 public abstract class AbstractController implements ActionListener{
-	protected Model model;
+	protected SimulatorModel model;
 	
 	/**
 	 * Register the model to the controller.
-	 * 
+	 *
 	 * @param model the model
 	 */
-	AbstractController(Model model) {
+	AbstractController(SimulatorModel model) {
 		this.model=model;
 	}
 }

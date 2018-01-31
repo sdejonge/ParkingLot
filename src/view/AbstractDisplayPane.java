@@ -60,8 +60,8 @@ public abstract class AbstractDisplayPane extends JPanel implements view.Observe
 	 * Returns the model
 	 * @return the model
 	 */
-	public Model getModel() {
-		return (Model) getObservable();
+	public SimulatorModel getModel() {
+		return (SimulatorModel) getObservable();
 	}
 	
 	/**
