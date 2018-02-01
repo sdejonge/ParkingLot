@@ -2,14 +2,14 @@ package model;
 
 import view.*;
 
+import javax.swing.*;
 import java.util.Random;
 
 public class SimulatorModel {
 
 	private static final String AD_HOC = "1";
 	private static final String PASS = "2";
-	
-	
+
 	private CarQueue entranceCarQueue;
     private CarQueue entrancePassQueue;
     private CarQueue paymentCarQueue;
@@ -40,6 +40,10 @@ public class SimulatorModel {
     private int absReserv; //houd bij hoeveel plaatsen in elke rij worden gereserveerd voor abonnementhouders, wordt berekend in de constructor
     private int numberOfOpenSpots;
     private Car[][][] cars;
+
+    public int totalCars;
+    public int redCars;
+    public int blueCars;
 
     public SimulatorModel(int numberOfFloors, int numberOfRows, int numberOfPlaces){
         entranceCarQueue = new CarQueue();
@@ -82,6 +86,10 @@ public class SimulatorModel {
             e.printStackTrace();
         }
     	handleEntrance();
+    }
+
+    public int getTick(){
+        return tick;
     }
 
     public void tickLeave() {
@@ -143,7 +151,14 @@ public class SimulatorModel {
             Car car = queue.removeCar();
             Location freeLocation = getFirstFreeLocation(carType);
             setCarAt(freeLocation, car);
-            i++;
+            if(car.getHasToPay()==true) {
+                redCars++;
+                i++;
+            }
+            else {
+                blueCars++;
+                i++;
+            }
         }
     }
     
