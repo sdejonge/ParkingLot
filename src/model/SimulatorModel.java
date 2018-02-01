@@ -14,6 +14,7 @@ public class SimulatorModel {
     private CarQueue entrancePassQueue;
     private CarQueue paymentCarQueue;
     private CarQueue exitCarQueue;
+
     private SimulatorView simView;
 
     private int day = 0;
@@ -35,6 +36,8 @@ public class SimulatorModel {
     private int numberOfFloors;
     private int numberOfRows;
     private int numberOfPlaces;
+    private int perReserv = 34; //houd bij welk persentage van de plekken wordt gereserveerd voor abonementhouders
+    private int absReserv; //houd bij hoeveel plaatsen in elke rij worden gereserveerd voor abonnementhouders, wordt berekend in de constructor
     private int numberOfOpenSpots;
     private Car[][][] cars;
 
@@ -49,6 +52,13 @@ public class SimulatorModel {
         this.numberOfPlaces = numberOfPlaces;
         this.numberOfOpenSpots =numberOfFloors*numberOfRows*numberOfPlaces;
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
+
+        //bereken hoeveel plaatsen uit elke rij, worden gereserveerd voor abonnementhouders
+        float a = perReserv;
+        a = (a / 100);
+        a = (getNumberOfPlaces() * a);
+        absReserv = (int)a;
+        System.out.println("absReserv: " + absReserv);
 
         simView = new SimulatorView(this, numberOfFloors, numberOfRows, numberOfPlaces);
 
@@ -107,8 +117,8 @@ public class SimulatorModel {
 
     private void handleEntrance(){
     	carsArriving();
-    	carsEntering(entrancePassQueue);
-    	carsEntering(entranceCarQueue);  	
+    	carsEntering(entranceCarQueue, 1);
+        carsEntering(entrancePassQueue, 2);
     }
     
     private void handleExit(){
@@ -124,14 +134,14 @@ public class SimulatorModel {
         addArrivingCars(numberOfCars, PASS);    	
     }
 
-    private void carsEntering(CarQueue queue){
+    private void carsEntering(CarQueue queue, int carType){
         int i=0;
         // Remove car from the front of the queue and assign to a parking space.
     	while (queue.carsInQueue()>0 && 
     			getNumberOfOpenSpots()>0 &&
     			i<enterSpeed) {
             Car car = queue.removeCar();
-            Location freeLocation = getFirstFreeLocation();
+            Location freeLocation = getFirstFreeLocation(carType);
             setCarAt(freeLocation, car);
             i++;
         }
@@ -258,13 +268,41 @@ public class SimulatorModel {
         return car;
     }
 
-    public Location getFirstFreeLocation() {
-        for (int floor = 0; floor < getNumberOfFloors(); floor++) {
-            for (int row = 0; row < getNumberOfRows(); row++) {
-                for (int place = 0; place < getNumberOfPlaces(); place++) {
-                    Location location = new Location(floor, row, place);
-                    if (getCarAt(location) == null) {
-                        return location;
+    public Location getFirstFreeLocation(int locType) {
+        if (locType == 1){
+            for (int floor = 0; floor < getNumberOfFloors(); floor++) {
+                for (int row = 0; row < getNumberOfRows(); row++) {
+                    for (int place = 0; place < (getNumberOfPlaces() - absReserv); place++) {
+                        Location location = new Location(floor, row, place);
+                        if (getCarAt(location) == null) {
+                            return location;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (locType == 2){
+            for (int floor = 0; floor < getNumberOfFloors(); floor++) {
+                for (int row = 0; row < getNumberOfRows(); row++) {
+                    for (int place = (getNumberOfPlaces() - absReserv); place < getNumberOfPlaces(); place++) {
+                        Location location = new Location(floor, row, place);
+                        if (getCarAt(location) == null) {
+                            return location;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (locType == 3) {
+            for (int floor = 0; floor < getNumberOfFloors(); floor++) {
+                for (int row = 0; row < getNumberOfRows(); row++) {
+                    for (int place = 0; place < getNumberOfPlaces(); place++) {
+                        Location location = new Location(floor, row, place);
+                        if (getCarAt(location) == null) {
+                            return location;
+                        }
                     }
                 }
             }
@@ -295,5 +333,9 @@ public class SimulatorModel {
             return false;
         }
         return true;
+    }
+
+    public int getReserv() {
+        return(absReserv);
     }
 }

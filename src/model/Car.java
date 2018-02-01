@@ -3,22 +3,14 @@ package model;
 import java.awt.*;
 
 /**
-<<<<<<< HEAD
-=======
  * This class contains information regarding the cars in the parking lot.
  *
->>>>>>> f89fae7dbc323d29a8ba39eec13b11d4added201
  * @author S. de Jonge
  * @version 30-01-2018
  */
 
 public abstract class Car {
 
-<<<<<<< HEAD
-    private Location location;
-    private int minutesLeft;
-    private boolean isPaying;
-=======
     //Location of the car object within the parking lot.
     private Location location;
 
@@ -29,7 +21,6 @@ public abstract class Car {
     private boolean isPaying;
 
     //Contains information wether the customer has to pay or already paid.
->>>>>>> f89fae7dbc323d29a8ba39eec13b11d4added201
     private boolean hasToPay;
 
     /**
