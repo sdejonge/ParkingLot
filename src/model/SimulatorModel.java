@@ -223,6 +223,12 @@ public class SimulatorModel {
     }
     
     private void carLeavesSpot(Car car){
+        if (car instanceof AdHocCar) {
+            redCars--;
+        }
+        else if (car instanceof ParkingPassCar) {
+            blueCars--;
+        }
     	removeCarAt(car.getLocation());
         exitCarQueue.addCar(car);
     }
