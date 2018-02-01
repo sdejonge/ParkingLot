@@ -33,11 +33,12 @@ public class SimulatorModel {
     int paymentSpeed = 7; // number of cars that can pay per minute
     int exitSpeed = 5; // number of cars that can leave per minute
 
-    public int prijs = 3;
-
     public int redCars;
     public int blueCars;
     public int totalCars;
+
+    private int stayMinutes; //The amount of time a car stays in the parking lot
+    private int prijs = 3; //The price per hour
     public int profit;
 
     private int numberOfFloors;
@@ -179,7 +180,8 @@ public class SimulatorModel {
     	int i=0;
     	while (paymentCarQueue.carsInQueue()>0 && i < paymentSpeed) {
             Car car = paymentCarQueue.removeCar();
-            // TODO Handle payment.
+            stayMinutes = ((AdHocCar) car).getStayMinutes(); //Set the minutes a car stays in the parking lot.
+            profit += stayMinutes * prijs / 60; //Formula to calculate the amount of money to be paid.
             carLeavesSpot(car);
             i++;
         }

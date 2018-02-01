@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.*;
+import java.util.Random;
 
 /**
  * This class contains information regarding the cars in the parking lot.
@@ -53,7 +54,6 @@ public abstract class Car {
     public int getMinutesLeft() {
         return minutesLeft;
     }
-
     /**
      * set the remaining amount of minutes left of the car object
      * @param minutesLeft int

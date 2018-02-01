@@ -20,7 +20,6 @@ public class TextView extends JPanel {
 
     public TextView(SimulatorModel model){
         this.model = model;
-        new GridBagLayout();
     }
 
     public void paintComponent(Graphics g) {
