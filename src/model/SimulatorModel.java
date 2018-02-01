@@ -36,12 +36,11 @@ public class SimulatorModel {
     private int numberOfFloors;
     private int numberOfRows;
     private int numberOfPlaces;
-    private int perReserv = 34; //houd bij welk persentage van de plekken wordt gereserveerd voor abonementhouders
     private int absReserv; //houd bij hoeveel plaatsen in elke rij worden gereserveerd voor abonnementhouders, wordt berekend in de constructor
     private int numberOfOpenSpots;
     private Car[][][] cars;
 
-    public SimulatorModel(int numberOfFloors, int numberOfRows, int numberOfPlaces){
+    public SimulatorModel(int numberOfFloors, int numberOfRows, int numberOfPlaces, int Reserv){
         entranceCarQueue = new CarQueue();
         entrancePassQueue = new CarQueue();
         paymentCarQueue = new CarQueue();
@@ -54,7 +53,7 @@ public class SimulatorModel {
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
 
         //bereken hoeveel plaatsen uit elke rij, worden gereserveerd voor abonnementhouders
-        float a = perReserv;
+        float a = Reserv;
         a = (a / 100);
         a = (getNumberOfPlaces() * a);
         absReserv = (int)a;

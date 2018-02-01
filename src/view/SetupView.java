@@ -7,7 +7,7 @@ import javax.swing.*;
 public class SetupView extends JFrame {
 
     private boolean setupKlaar = false; //een boolean waarin wordt bijgehouden of de setup klaar is
-    String[] teksten =  new String[3]; //maakt een array strings om de teksten van de invoervelden in op te slaan
+    String[] teksten =  new String[4]; //maakt een array strings om de teksten van de invoervelden in op te slaan
 
     public SetupView(){
         //Voeg een knopje toe
@@ -18,16 +18,19 @@ public class SetupView extends JFrame {
         JLabel labelFloors = new JLabel("Floors: ");
         JLabel labelRows = new JLabel("Rows: ");
         JLabel labelPlaces = new JLabel("Places: ");
+        JLabel labelReserv = new JLabel("% Reserver: ");
 
         //Voeg invoervelden toe
         JTextField invoerFloors = new JTextField();
         JTextField invoerRows = new JTextField();
         JTextField invoerPlaces = new JTextField();
+        JTextField invoerReserv = new JTextField();
 
         //maak panelen aan
         JPanel panelFloors = new JPanel();
         JPanel panelRows = new JPanel();
         JPanel panelPlaces = new JPanel();
+        JPanel panelReserv = new JPanel();
         JPanel mainPanel = new JPanel();
 
         //voeg de componenten toe aan de jpanelen
@@ -40,6 +43,9 @@ public class SetupView extends JFrame {
         panelPlaces.add(labelPlaces);
         panelPlaces.add(invoerPlaces, BorderLayout.CENTER);
 
+        panelReserv.add(labelReserv);
+        panelReserv.add(invoerReserv, BorderLayout.CENTER);
+
         //voeg de jpanelen toe aan de mainPanel
         panelFloors.setLayout(new BoxLayout(panelFloors, BoxLayout.LINE_AXIS)); //Set de layout van de jpanel
         mainPanel.add(panelFloors);
@@ -47,6 +53,8 @@ public class SetupView extends JFrame {
         mainPanel.add(panelRows);
         panelPlaces.setLayout(new BoxLayout(panelPlaces, BoxLayout.LINE_AXIS)); //Set de layout van de jpanel
         mainPanel.add(panelPlaces);
+        panelReserv.setLayout(new BoxLayout(panelReserv, BoxLayout.LINE_AXIS)); //Set de layout van de jpanel
+        mainPanel.add(panelReserv);
 
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS)); //Set de layout van de mainPanel
 
@@ -64,6 +72,7 @@ public class SetupView extends JFrame {
                 teksten[0] = invoerFloors.getText(); //leest de tekst geschreven in het tekstveld
                 teksten[1] = invoerRows.getText(); //leest de tekst geschreven in het tekstveld
                 teksten[2] = invoerPlaces.getText(); //leest de tekst geschreven in het tekstveld
+                teksten[3] = invoerReserv.getText(); //leest de tekst geschreven in het tekstveld
                 System.out.println("Setup is klaar vanuit de actionlistener");
             }
         });
@@ -80,13 +89,14 @@ public class SetupView extends JFrame {
     }
 
     public int[] setupWaardes() {
-        int[] a = {0, 0, 0}; //Maakt een array aan met de waardes die gaan worden teruggegeven
+        int[] a = new int[4]; //Maakt een array aan met de waardes die gaan worden teruggegeven
 
         //TODO fix fouten bij hoger aantal rows
         a[0] = Parse(teksten[0], 3);
         //a[1] = Parse(teksten[1], 6); Rows instellen zorgt voor problemen, dit is uitgeschakeld totdat het kan worden gefixed
         a[1] = 6; //Rows krijgt nu altijd een standaardwaarde van 6
         a[2] = Parse(teksten[2], 30);
+        a[3] = Parse(teksten[3], 34);
 
         return a;
     }

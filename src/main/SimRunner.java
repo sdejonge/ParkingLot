@@ -26,7 +26,7 @@ public class SimRunner {
         sview = null; //verwijderd het setupscherm om data vrij te maken
         System.out.println("SetupView is verwijderd");
 
-        SimulatorModel sim = new SimulatorModel(setupWaardes[0], setupWaardes[1], setupWaardes[2]);
+        SimulatorModel sim = new SimulatorModel(setupWaardes[0], setupWaardes[1], setupWaardes[2], setupWaardes[3]);
         sim.run();
     }
 }
