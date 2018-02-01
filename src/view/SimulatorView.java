@@ -1,7 +1,5 @@
 package view;
 
-import controller.AbstractController;
-import controller.Controller;
 import model.*;
 
 import javax.swing.*;
@@ -11,7 +9,6 @@ public class SimulatorView extends JFrame {
 
     private CarParkView carParkView;
     private TextView textView;
-    private AbstractController controller;
 
     private SimulatorModel model;
     private JPanel carPanel;
@@ -19,8 +16,7 @@ public class SimulatorView extends JFrame {
     public SimulatorView(SimulatorModel model, int numberOfFloors, int numberOfRows, int numberOfPlaces) {
         this.model = model;
         carParkView = new CarParkView(model, numberOfFloors, numberOfRows, numberOfPlaces);
-        textView = new TextView(model);
-        controller = new Controller(model);
+        textView = new TextView();
 
         // Initiate frame
         JFrame frame = new JFrame("Parking simulator 1.0");
@@ -39,8 +35,8 @@ public class SimulatorView extends JFrame {
     }
 
     public void updateView() {
-        textView.updateView(model);
         carParkView.updateView();
+        textView.updateView();
     }
 
 }
