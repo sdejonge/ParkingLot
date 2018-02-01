@@ -11,8 +11,11 @@ import view.*;
 public class SimRunner {
 
     /**
-      * Create a new instance of the SimulatorModel() class.
-      */
+     * Main method to start the application.
+     * Starts with a home screen in which you need to specify the amount of rows.
+     * Create a new simulator model and run the application with the set parameters.
+     * If no parameters where given set the default values.
+     */
   
     public static void main(String[] args) {
         System.out.println("Main methode start");
