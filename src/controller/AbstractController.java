@@ -2,6 +2,7 @@ package controller;
 
 import model.SimulatorModel;
 
+import javax.swing.*;
 import java.awt.event.ActionListener;
 
 /**
@@ -12,7 +13,7 @@ import java.awt.event.ActionListener;
  * @author ronaldvandijk
  *
  */
-public abstract class AbstractController implements ActionListener{
+public abstract class AbstractController extends JPanel {
 	protected SimulatorModel model;
 	
 	/**
@@ -22,5 +23,9 @@ public abstract class AbstractController implements ActionListener{
 	 */
 	AbstractController(SimulatorModel model) {
 		this.model=model;
+	}
+
+	public void updateView(){
+		repaint();
 	}
 }

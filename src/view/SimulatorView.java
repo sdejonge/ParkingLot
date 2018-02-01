@@ -16,7 +16,7 @@ public class SimulatorView extends JFrame {
     public SimulatorView(SimulatorModel model, int numberOfFloors, int numberOfRows, int numberOfPlaces) {
         this.model = model;
         carParkView = new CarParkView(model, numberOfFloors, numberOfRows, numberOfPlaces);
-        textView = new TextView(model);
+        textView = new TextView();
 
         // Initiate frame
         JFrame frame = new JFrame("Parking simulator 1.0");
@@ -36,7 +36,7 @@ public class SimulatorView extends JFrame {
 
     public void updateView() {
         carParkView.updateView();
-        textView.updateView(model);
+        textView.updateView();
     }
 
 }
