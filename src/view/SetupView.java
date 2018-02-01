@@ -4,8 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-
-
 public class SetupView extends JFrame {
 
     private boolean setupKlaar = false; //een boolean waarin wordt bijgehouden of de setup klaar is
