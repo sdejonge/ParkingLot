@@ -33,6 +33,9 @@ public class SimulatorModel {
     int paymentSpeed = 7; // number of cars that can pay per minute
     int exitSpeed = 5; // number of cars that can leave per minute
 
+    public int redCars;
+    public int blueCars;
+
     private int numberOfFloors;
     private int numberOfRows;
     private int numberOfPlaces;
@@ -207,11 +210,13 @@ public class SimulatorModel {
     	case AD_HOC: 
             for (int i = 0; i < numberOfCars; i++) {
             	entranceCarQueue.addCar(new AdHocCar());
+            	redCars++;
             }
             break;
     	case PASS:
             for (int i = 0; i < numberOfCars; i++) {
             	entrancePassQueue.addCar(new ParkingPassCar());
+            	blueCars++;
             }
             break;	            
     	}
