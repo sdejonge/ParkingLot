@@ -33,15 +33,22 @@ public class SimulatorModel {
     int paymentSpeed = 7; // number of cars that can pay per minute
     int exitSpeed = 5; // number of cars that can leave per minute
 
+    public int redCars;
+    public int blueCars;
+    public int totalCars;
+
+    private int stayMinutes; //The amount of time a car stays in the parking lot
+    private int prijs = 3; //The price per hour
+    public int profit;
+
     private int numberOfFloors;
     private int numberOfRows;
     private int numberOfPlaces;
-    private int perReserv = 34; //houd bij welk persentage van de plekken wordt gereserveerd voor abonementhouders
     private int absReserv; //houd bij hoeveel plaatsen in elke rij worden gereserveerd voor abonnementhouders, wordt berekend in de constructor
     private int numberOfOpenSpots;
     private Car[][][] cars;
 
-    public SimulatorModel(int numberOfFloors, int numberOfRows, int numberOfPlaces){
+    public SimulatorModel(int numberOfFloors, int numberOfRows, int numberOfPlaces, int Reserv){
         entranceCarQueue = new CarQueue();
         entrancePassQueue = new CarQueue();
         paymentCarQueue = new CarQueue();
@@ -54,7 +61,7 @@ public class SimulatorModel {
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
 
         //bereken hoeveel plaatsen uit elke rij, worden gereserveerd voor abonnementhouders
-        float a = perReserv;
+        float a = Reserv;
         a = (a / 100);
         a = (getNumberOfPlaces() * a);
         absReserv = (int)a;
@@ -142,7 +149,13 @@ public class SimulatorModel {
     			i<enterSpeed) {
             Car car = queue.removeCar();
             Location freeLocation = getFirstFreeLocation(carType);
-            setCarAt(freeLocation, car);
+            if (freeLocation != null) {
+                setCarAt(freeLocation, car);
+            }
+            if (freeLocation == null && carType == 2) {
+                freeLocation = getFirstFreeLocation(3);
+                setCarAt(freeLocation, car);
+            }
             i++;
         }
     }
@@ -165,12 +178,13 @@ public class SimulatorModel {
     private void carsPaying(){
         // Let cars pay.
     	int i=0;
-    	while (paymentCarQueue.carsInQueue()>0 && i < paymentSpeed){
+    	while (paymentCarQueue.carsInQueue()>0 && i < paymentSpeed) {
             Car car = paymentCarQueue.removeCar();
-            // TODO Handle payment.
+            stayMinutes = ((AdHocCar) car).getStayMinutes(); //Set the minutes a car stays in the parking lot.
+            profit += stayMinutes * prijs / 60; //Formula to calculate the amount of money to be paid.
             carLeavesSpot(car);
             i++;
-    	}
+        }
     }
     
     private void carsLeaving(){
@@ -201,18 +215,32 @@ public class SimulatorModel {
     	switch(type) {
     	case AD_HOC: 
             for (int i = 0; i < numberOfCars; i++) {
-            	entranceCarQueue.addCar(new AdHocCar());
+                if (numberOfOpenSpots > 0) {
+                    entranceCarQueue.addCar(new AdHocCar());
+                    redCars++;
+                    totalCars = redCars + blueCars;
+                }
             }
             break;
     	case PASS:
             for (int i = 0; i < numberOfCars; i++) {
-            	entrancePassQueue.addCar(new ParkingPassCar());
+                if (numberOfOpenSpots > 0) {
+                    entrancePassQueue.addCar(new ParkingPassCar());
+                    blueCars++;
+                    totalCars = redCars + blueCars;
+                }
             }
             break;	            
     	}
     }
     
     private void carLeavesSpot(Car car){
+        if (car instanceof AdHocCar) {
+            redCars--;
+        }
+        else if (car instanceof ParkingPassCar) {
+            blueCars--;
+        }
     	removeCarAt(car.getLocation());
         exitCarQueue.addCar(car);
     }
