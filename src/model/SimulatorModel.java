@@ -33,8 +33,12 @@ public class SimulatorModel {
     int paymentSpeed = 7; // number of cars that can pay per minute
     int exitSpeed = 5; // number of cars that can leave per minute
 
+    public int prijs = 3;
+
     public int redCars;
     public int blueCars;
+    public int totalCars;
+    public int profit;
 
     private int numberOfFloors;
     private int numberOfRows;
@@ -173,12 +177,12 @@ public class SimulatorModel {
     private void carsPaying(){
         // Let cars pay.
     	int i=0;
-    	while (paymentCarQueue.carsInQueue()>0 && i < paymentSpeed){
+    	while (paymentCarQueue.carsInQueue()>0 && i < paymentSpeed) {
             Car car = paymentCarQueue.removeCar();
             // TODO Handle payment.
             carLeavesSpot(car);
             i++;
-    	}
+        }
     }
     
     private void carsLeaving(){
@@ -209,14 +213,20 @@ public class SimulatorModel {
     	switch(type) {
     	case AD_HOC: 
             for (int i = 0; i < numberOfCars; i++) {
-            	entranceCarQueue.addCar(new AdHocCar());
-            	redCars++;
+                if (numberOfOpenSpots > 0) {
+                    entranceCarQueue.addCar(new AdHocCar());
+                    redCars++;
+                    totalCars = redCars + blueCars;
+                }
             }
             break;
     	case PASS:
             for (int i = 0; i < numberOfCars; i++) {
-            	entrancePassQueue.addCar(new ParkingPassCar());
-            	blueCars++;
+                if (numberOfOpenSpots > 0) {
+                    entrancePassQueue.addCar(new ParkingPassCar());
+                    blueCars++;
+                    totalCars = redCars + blueCars;
+                }
             }
             break;	            
     	}
