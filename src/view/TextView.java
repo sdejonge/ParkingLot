@@ -16,6 +16,8 @@ public class TextView extends JPanel {
     private JLabel blue = new JLabel("");
     private JLabel total = new JLabel("");
 
+    private int totalCars;
+
     public TextView(SimulatorModel model){
         this.model = model;
         new GridBagLayout();
@@ -34,9 +36,10 @@ public class TextView extends JPanel {
     }
 
     public void updateView(SimulatorModel model){
+        totalCars = model.redCars + model.blueCars;
         red.setText(String.valueOf(model.redCars));
         blue.setText(String.valueOf(model.blueCars));
-        total.setText(String.valueOf(model.totalCars));
+        total.setText(String.valueOf(totalCars));
         repaint();
     }
 }
