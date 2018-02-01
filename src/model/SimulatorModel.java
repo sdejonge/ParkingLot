@@ -65,7 +65,6 @@ public class SimulatorModel {
         System.out.println("absReserv: " + absReserv);
 
         simView = new SimulatorView(this, numberOfFloors, numberOfRows, numberOfPlaces);
-
     }
 
     public void run() {
@@ -86,10 +85,6 @@ public class SimulatorModel {
             e.printStackTrace();
         }
     	handleEntrance();
-    }
-
-    public int getTick(){
-        return tick;
     }
 
     public void tickLeave() {
@@ -137,9 +132,9 @@ public class SimulatorModel {
     
     private void carsArriving(){
     	int numberOfCars=getNumberOfCars(weekDayArrivals, weekendArrivals);
-        addArrivingCars(numberOfCars, AD_HOC);    	
+        addArrivingCars(numberOfCars, AD_HOC);
     	numberOfCars=getNumberOfCars(weekDayPassArrivals, weekendPassArrivals);
-        addArrivingCars(numberOfCars, PASS);    	
+        addArrivingCars(numberOfCars, PASS);
     }
 
     private void carsEntering(CarQueue queue, int carType){
@@ -151,14 +146,7 @@ public class SimulatorModel {
             Car car = queue.removeCar();
             Location freeLocation = getFirstFreeLocation(carType);
             setCarAt(freeLocation, car);
-            if(car.getHasToPay()==true) {
-                redCars++;
-                i++;
-            }
-            else {
-                blueCars++;
-                i++;
-            }
+            i++;
         }
     }
     
@@ -192,7 +180,7 @@ public class SimulatorModel {
         // Let cars leave.
     	int i=0;
     	while (exitCarQueue.carsInQueue()>0 && i < exitSpeed){
-            exitCarQueue.removeCar();
+    	    exitCarQueue.removeCar();
             i++;
     	}	
     }
@@ -217,17 +205,25 @@ public class SimulatorModel {
     	case AD_HOC: 
             for (int i = 0; i < numberOfCars; i++) {
             	entranceCarQueue.addCar(new AdHocCar());
+            	redCars++;
             }
             break;
     	case PASS:
             for (int i = 0; i < numberOfCars; i++) {
             	entrancePassQueue.addCar(new ParkingPassCar());
+            	blueCars++;
             }
             break;	            
     	}
     }
-    
+
     private void carLeavesSpot(Car car){
+        if(car instanceof AdHocCar){
+            redCars--;
+        }
+        else if(car instanceof ParkingPassCar){
+            blueCars--;
+        }
     	removeCarAt(car.getLocation());
         exitCarQueue.addCar(car);
     }
