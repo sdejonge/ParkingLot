@@ -84,7 +84,7 @@ public class SetupView extends JFrame {
     public int[] setupWaardes() {
         int[] a = {0, 0, 0}; //Maakt een array aan met de waardes die gaan worden teruggegeven
 
-
+        //TODO fix fouten bij hoger aantal rows
         a[0] = Parse(teksten[0], 3);
         //a[1] = Parse(teksten[1], 6); Rows instellen zorgt voor problemen, dit is uitgeschakeld totdat het kan worden gefixed
         a[1] = 6; //Rows krijgt nu altijd een standaardwaarde van 6
