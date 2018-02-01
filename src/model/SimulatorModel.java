@@ -142,7 +142,13 @@ public class SimulatorModel {
     			i<enterSpeed) {
             Car car = queue.removeCar();
             Location freeLocation = getFirstFreeLocation(carType);
-            setCarAt(freeLocation, car);
+            if (freeLocation != null) {
+                setCarAt(freeLocation, car);
+            }
+            if (freeLocation == null && carType == 2) {
+                freeLocation = getFirstFreeLocation(3);
+                setCarAt(freeLocation, car);
+            }
             i++;
         }
     }
