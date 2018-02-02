@@ -43,7 +43,10 @@ public class SimulatorModel extends AbstractModel implements Runnable{
 
     private int stayMinutes; //The amount of time a car stays in the parking lot
     private double prijs = 1.2 ; //The price per hour
-    public double profit;
+    public double totalProfit;
+    public int minutesElapsed = 0;
+    public double nextProfit;
+    public double estimateProfit;
     public int[] weekProfit;
 
     private int numberOfFloors;
@@ -137,8 +140,8 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         }
         else if(day == 1){
             day_text = "Tuesday";
-            weekProfit[0] = (int) profit;
-            profit = 0;
+            weekProfit[0] = (int) totalProfit;
+            totalProfit = 0;
         }
         else if(day == 2){
             day_text = "Wednesday";
@@ -160,6 +163,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     private void advanceTime(){
         // Advance the time by one minute.
         minute++;
+        minutesElapsed++;
 
         while (minute > 59) {
             minute -= 60;
@@ -235,7 +239,18 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     	while (paymentCarQueue.carsInQueue()>0 && i < paymentSpeed) {
             Car car = paymentCarQueue.removeCar();
             stayMinutes = ((AdHocCar) car).getStayMinutes(); //Set the minutes a car stays in the parking lot.
-            profit += stayMinutes * prijs / 60; //Formula to calculate the amount of money to be paid.
+            totalProfit += stayMinutes * prijs / 60; //Formula to calculate the amount of money to be paid.
+
+            if (minutesElapsed > 1439) {
+                minutesElapsed = 0;
+                nextProfit = 0;
+                estimateProfit = 0;
+            }
+            else {
+                nextProfit += stayMinutes * prijs / 60;
+                estimateProfit = nextProfit / minutesElapsed * 1440;
+            }
+
             carLeavesSpot(car);
             i++;
         }
