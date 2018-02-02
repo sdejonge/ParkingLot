@@ -11,7 +11,7 @@ public class SimulatorModel implements Runnable {
 	private static final String PASS = "2";
 
     public boolean running = false;
-    public boolean Paused = false;
+//    public boolean Paused = false;
 
 	private CarQueue entranceCarQueue;
     private CarQueue entrancePassQueue;
@@ -45,6 +45,8 @@ public class SimulatorModel implements Runnable {
     private double prijs = 1.2 ; //The price per hour
     public double profit;
 
+    public Thread StartThread;
+
     private int numberOfFloors;
     private int numberOfRows;
     private int numberOfPlaces;
@@ -57,6 +59,8 @@ public class SimulatorModel implements Runnable {
         entrancePassQueue = new CarQueue();
         paymentCarQueue = new CarQueue();
         exitCarQueue = new CarQueue();
+
+
 
         this.numberOfFloors = numberOfFloors;
         this.numberOfRows = numberOfRows;
@@ -75,11 +79,12 @@ public class SimulatorModel implements Runnable {
         Controller control = new Controller(this,simView);
 
     }
-//    Create start method for creating a new thread
+//    Create start method for creating a new thread,
+//    sets paused to false and running to true
     public void start(){
-        Paused = false;
         running=true;
-        new Thread  (this).start();
+        StartThread = new Thread(this);
+        StartThread.start();
     }
 
 //    Runs te project

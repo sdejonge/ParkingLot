@@ -1,5 +1,6 @@
 package controller;
 
+import com.sun.corba.se.impl.activation.NameServiceStartThread;
 import model.SimulatorModel;
 import view.SimulatorView;
 
@@ -44,16 +45,20 @@ public class Controller extends AbstractController implements ActionListener{
         }
 //        If pause is pressed
         else if(e.getSource() == mainView.Pause) {
-            System.out.println("Thread should now be stopped.");
+//          Check if Simulator is running.
             if(model.running) {
-                model.Paused = true;
-                System.out.println(model.Paused);
+                model.running = false;
+                System.out.println(model.running);
                 System.out.println("Model paused");
+                mainView.Pause.setText("Resume");
             }
-            else if(model.Paused){
-                model.Paused = false;
-                System.out.println(model.Paused);
+//            Check if pause is true
+            else if(!model.running){
+                model.running = true;
+                System.out.println(model.running);
                 System.out.println("Model resumed");
+                mainView.Pause.setText("Pause");
+
             }
 
         }
@@ -70,3 +75,4 @@ public class Controller extends AbstractController implements ActionListener{
         }
     }
 }
+
