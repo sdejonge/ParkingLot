@@ -21,6 +21,7 @@ public class Controller extends AbstractController implements ActionListener{
     }
 
     public void addButtonActionListener(){
+//        Add action listeners to the buttons created in SimulatorView.
         mainView.start.addActionListener(this);
         System.out.println("test");
         mainView.Pause.addActionListener(this);
@@ -29,13 +30,19 @@ public class Controller extends AbstractController implements ActionListener{
     }
 
     @Override
+//        Check for preformed actions
     public void actionPerformed(ActionEvent e) {
+//        If start is pressed
         if(e.getSource() == mainView.start){
             System.out.println("start knop pressed");
-            model.running = true;
             System.out.println(model.running);
-            model.start();
+            while(!model.running){
+                model.running = true;
+                model.start();
+            }
+
         }
+//        If pause is pressed
         else if(e.getSource() == mainView.Pause) {
             System.out.println("Thread should now be stopped.");
             if(model.running) {
@@ -50,9 +57,11 @@ public class Controller extends AbstractController implements ActionListener{
             }
 
         }
+//        If +10
         else if(e.getSource() == mainView.tienKeer){
 //            statement here
         }
+//        if +100
         else if(e.getSource() == mainView.honderdKeer){
 //            statement here
         }
