@@ -43,10 +43,10 @@ public class SimulatorModel extends AbstractModel implements Runnable{
 
     private int stayMinutes; //The amount of time a car stays in the parking lot
     private double prijs = 1.2 ; //The price per hour
-    public double totalProfit;
-    public int minutesElapsed = 0;
-    public double nextProfit;
-    public double estimateProfit;
+    public double totalProfit; // Total amount of profit since the start of running the application
+    public int minutesElapsed = 0; //Contains the amount of time ticks.
+    public double nextProfit; //The amount of profit on a single day.
+    public double estimateProfit; //The estimated amount of money per day.
     public int[] weekProfit;
 
     private int numberOfFloors;
