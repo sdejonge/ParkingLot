@@ -75,13 +75,14 @@ public class SimulatorModel implements Runnable {
         Controller control = new Controller(this,simView);
 
     }
-
+//    Create start method for creating a new thread
     public void start(){
         Paused = false;
         running=true;
         new Thread  (this).start();
     }
 
+//    Runs te project
     public void run() {
         while(running){
             for (int i = 0; i < 10000; i++) {
