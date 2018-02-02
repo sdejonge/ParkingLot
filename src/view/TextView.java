@@ -39,7 +39,7 @@ public class TextView extends JPanel {
         blue.setPreferredSize(new Dimension(50, 25));
         totalCars.setPreferredSize(new Dimension(50, 25));
         profit.setPreferredSize(new Dimension(100,25));
-        day.setPreferredSize(new Dimension(50,25));
+        day.setPreferredSize(new Dimension(65,25));
         time.setPreferredSize(new Dimension(40,25));
     }
 
