@@ -17,7 +17,7 @@ public class SimulatorModel {
     private SimulatorView simView;
 
     public int day = 0;
-    public String day_text;
+    public String day_text = "Monday";
     public int hour = 0;
     public int minute = 0;
 
@@ -103,24 +103,21 @@ public class SimulatorModel {
 
     public void dayToText(){
         if(day == 1){
-            day_text = "Monday";
-        }
-        else if(day == 2){
             day_text = "Tuesday";
         }
-        else if(day == 3){
+        else if(day == 2){
             day_text = "Wednesday";
         }
-        else if(day == 4){
+        else if(day == 3){
             day_text = "Thursday";
         }
-        else if(day == 5){
+        else if(day == 4){
             day_text = "Friday";
         }
-        else if(day == 6){
+        else if(day == 5){
             day_text = "Saturday";
         }
-        else if(day == 7){
+        else if(day == 6){
             day_text = "Sunday";
         }
     }
