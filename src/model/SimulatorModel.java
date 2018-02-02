@@ -35,6 +35,11 @@ public class SimulatorModel {
 
     public int redCars;
     public int blueCars;
+    public int totalCars;
+
+    private int stayMinutes; //The amount of time a car stays in the parking lot
+    private int prijs = 3; //The price per hour
+    public int profit;
 
     private int numberOfFloors;
     private int numberOfRows;
@@ -173,12 +178,13 @@ public class SimulatorModel {
     private void carsPaying(){
         // Let cars pay.
     	int i=0;
-    	while (paymentCarQueue.carsInQueue()>0 && i < paymentSpeed){
+    	while (paymentCarQueue.carsInQueue()>0 && i < paymentSpeed) {
             Car car = paymentCarQueue.removeCar();
-            // TODO Handle payment.
+            stayMinutes = ((AdHocCar) car).getStayMinutes(); //Set the minutes a car stays in the parking lot.
+            profit += stayMinutes * prijs / 60; //Formula to calculate the amount of money to be paid.
             carLeavesSpot(car);
             i++;
-    	}
+        }
     }
     
     private void carsLeaving(){
@@ -209,20 +215,32 @@ public class SimulatorModel {
     	switch(type) {
     	case AD_HOC: 
             for (int i = 0; i < numberOfCars; i++) {
-            	entranceCarQueue.addCar(new AdHocCar());
-            	redCars++;
+                if (numberOfOpenSpots > 0) {
+                    entranceCarQueue.addCar(new AdHocCar());
+                    redCars++;
+                    totalCars = redCars + blueCars;
+                }
             }
             break;
     	case PASS:
             for (int i = 0; i < numberOfCars; i++) {
-            	entrancePassQueue.addCar(new ParkingPassCar());
-            	blueCars++;
+                if (numberOfOpenSpots > 0) {
+                    entrancePassQueue.addCar(new ParkingPassCar());
+                    blueCars++;
+                    totalCars = redCars + blueCars;
+                }
             }
             break;	            
     	}
     }
     
     private void carLeavesSpot(Car car){
+        if (car instanceof AdHocCar) {
+            redCars--;
+        }
+        else if (car instanceof ParkingPassCar) {
+            blueCars--;
+        }
     	removeCarAt(car.getLocation());
         exitCarQueue.addCar(car);
     }
