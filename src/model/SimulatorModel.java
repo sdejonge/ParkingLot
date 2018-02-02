@@ -148,7 +148,6 @@ public class SimulatorModel {
         while (day > 6) {
             day -= 7;
         }
-
     }
 
     private void handleEntrance(){
