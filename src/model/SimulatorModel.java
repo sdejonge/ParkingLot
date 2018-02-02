@@ -83,14 +83,7 @@ public class SimulatorModel {
     	advanceTime();
     	handleExit();
         simView.updateView();
-        minute += 20;
-        if(minute == 59){
-            hour += 1;
-        }
-        if(hour == 23 && minute == 59){
-            day += 1;
-            dayToText();
-        }
+        advanceTime();
         try {
             Thread.sleep(tickPause);
         } catch (InterruptedException e) {
@@ -137,6 +130,7 @@ public class SimulatorModel {
     private void advanceTime(){
         // Advance the time by one minute.
         minute++;
+
         while (minute > 59) {
             minute -= 60;
             hour++;
@@ -144,6 +138,7 @@ public class SimulatorModel {
         while (hour > 23) {
             hour -= 24;
             day++;
+            dayToText();
         }
         while (day > 6) {
             day -= 7;
