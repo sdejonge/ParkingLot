@@ -38,8 +38,8 @@ public class SimulatorModel {
     public int totalCars;
 
     private int stayMinutes; //The amount of time a car stays in the parking lot
-    private int prijs = 3; //The price per hour
-    public int profit;
+    private double prijs = 1.2 ; //The price per hour
+    public double profit;
 
     private int numberOfFloors;
     private int numberOfRows;

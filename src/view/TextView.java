@@ -34,14 +34,16 @@ public class TextView extends JPanel {
         red.setPreferredSize(new Dimension(50, 25));
         blue.setPreferredSize(new Dimension(50, 25));
         totalCars.setPreferredSize(new Dimension(50, 25));
-        profit.setPreferredSize(new Dimension(50,25));
+        profit.setPreferredSize(new Dimension(100,25));
     }
 
     public void updateView(SimulatorModel model){
         red.setText(String.valueOf(model.redCars));
         blue.setText(String.valueOf(model.blueCars));
         totalCars.setText(String.valueOf(model.totalCars));
-        profit.setText("€ " + String.valueOf(model.profit));
+        double value = model.profit;
+        double roundOff = Math.round(value * 100.0) / 100.0;
+        profit.setText("€ " + (String.valueOf(roundOff)));
         repaint();
     }
 }
