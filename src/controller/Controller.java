@@ -47,7 +47,7 @@ public class Controller extends AbstractController{
             if ( model.running ) {
                 model.Paused = true;
                 System.out.println(model.Paused);
-                System.out.println("Model paused");
+                System.out.println("Model paused atm");
             } else if ( model.Paused ) {
                 model.Paused = false;
                 System.out.println(model.Paused);
