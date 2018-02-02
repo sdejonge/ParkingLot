@@ -23,6 +23,7 @@ public class SimulatorView extends JFrame {
     public SimulatorView(SimulatorModel model, int numberOfFloors, int numberOfRows, int numberOfPlaces) {
         this.model = model;
 
+        //Create buttons to show on JPanel
         start = new JButton("start");
         Pause = new JButton("Pause");
         honderdKeer = new JButton("+100");
@@ -31,6 +32,7 @@ public class SimulatorView extends JFrame {
         carParkView = new CarParkView(model, numberOfFloors, numberOfRows, numberOfPlaces);
         textView = new TextView(model);
 
+    //  Add buttons to JPanel
         buttonPanel = new JPanel();
         buttonPanel.add(start);
         buttonPanel.add(Pause);
@@ -45,9 +47,10 @@ public class SimulatorView extends JFrame {
         carPanel = new JPanel(new BorderLayout());
         carPanel.add(carParkView, BorderLayout.CENTER);
 
+//      add panels to frame
         frame.getContentPane().add(textView, BorderLayout.PAGE_START);
         frame.getContentPane().add(carPanel, BorderLayout.CENTER);
-        frame.add(buttonPanel, BorderLayout.PAGE_END);
+        frame.getContentPane().add(buttonPanel, BorderLayout.PAGE_END);
 
         pack();
         frame.setVisible(true);
