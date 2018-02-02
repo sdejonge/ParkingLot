@@ -5,6 +5,11 @@ import view.*;
 
 import java.util.Random;
 
+public class SimulatorModel extends AbstractModel implements Runnable{
+
+	private static final String AD_HOC = "1";
+	private static final String PASS = "2";
+
 public class SimulatorModel implements Runnable {
 
 	private static final String AD_HOC = "1";
@@ -12,7 +17,7 @@ public class SimulatorModel implements Runnable {
 
     public boolean running = false;
     public boolean Paused = false;
-
+    
 	private CarQueue entranceCarQueue;
     private CarQueue entrancePassQueue;
     private CarQueue paymentCarQueue;
@@ -44,6 +49,7 @@ public class SimulatorModel implements Runnable {
     private int stayMinutes; //The amount of time a car stays in the parking lot
     private double prijs = 1.2 ; //The price per hour
     public double profit;
+    public int[] weekProfit;
 
     private int numberOfFloors;
     private int numberOfRows;
@@ -71,9 +77,11 @@ public class SimulatorModel implements Runnable {
         absReserv = (int)a;
         System.out.println("absReserv: " + absReserv);
 
+        weekProfit = new int[7];
         simView = new SimulatorView(this, numberOfFloors, numberOfRows, numberOfPlaces);
         Controller control = new Controller(this,simView);
 
+        simView = new SimulatorView(this, numberOfFloors, numberOfRows, numberOfPlaces);
     }
 //    Create start method for creating a new thread
     public void start(){
@@ -91,23 +99,48 @@ public class SimulatorModel implements Runnable {
             }
         }
     }
-    
+
+    public void runOnce(){
+        advanceTime();
+        handleExit();
+        handleEntrance();
+        notifyViews();
+    }
+
     private void tick() {
     	advanceTime();
     	handleExit();
-        simView.updateView();
-        advanceTime();
+        handleEntrance();
+        notifyViews();
         try {
             Thread.sleep(tickPause);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    	handleEntrance();
+    }
+
+    public void tickLeave() {
+        for (int floor = 0; floor < getNumberOfFloors(); floor++) {
+            for (int row = 0; row < getNumberOfRows(); row++) {
+                for (int place = 0; place < getNumberOfPlaces(); place++) {
+                    Location location = new Location(floor, row, place);
+                    Car car = getCarAt(location);
+                    if (car != null) {
+                        car.tick();
+                    }
+                }
+            }
+        }
     }
 
     public void dayToText(){
-        if(day == 1){
+        if(day == 0){
+            day_text = "Monday";
+        }
+        else if(day == 1){
             day_text = "Tuesday";
+            weekProfit[0] = (int) profit;
+            profit = 0;
         }
         else if(day == 2){
             day_text = "Wednesday";
@@ -123,20 +156,6 @@ public class SimulatorModel implements Runnable {
         }
         else if(day == 6){
             day_text = "Sunday";
-        }
-    }
-
-    public void tickLeave() {
-        for (int floor = 0; floor < getNumberOfFloors(); floor++) {
-            for (int row = 0; row < getNumberOfRows(); row++) {
-                for (int place = 0; place < getNumberOfPlaces(); place++) {
-                    Location location = new Location(floor, row, place);
-                    Car car = getCarAt(location);
-                    if (car != null) {
-                        car.tick();
-                    }
-                }
-            }
         }
     }
 
