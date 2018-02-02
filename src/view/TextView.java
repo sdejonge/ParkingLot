@@ -22,11 +22,7 @@ public class TextView extends AbstractDisplayPane {
         super(model);
         this.model = model;
     }
-
-    public void paintComponent(Graphics g) {
-
-    }
-
+    
     public void updateView(){
         this.add(redLabel);
         this.add(red);

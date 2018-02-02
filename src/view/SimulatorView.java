@@ -32,7 +32,7 @@ public class SimulatorView extends JFrame {
         topPanel.setSize(800, 200);
 
         topPanel.add(textView, BorderLayout.PAGE_START);
-        //topPanel.add(profitView, BorderLayout.PAGE_END);
+        topPanel.add(profitView, BorderLayout.PAGE_END);
 
         frame.getContentPane().add(topPanel, BorderLayout.PAGE_START);
         frame.getContentPane().add(carParkView, BorderLayout.CENTER);

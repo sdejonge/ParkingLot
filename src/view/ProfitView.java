@@ -16,9 +16,6 @@ public class ProfitView extends AbstractDisplayPane {
         this.model = model;
     }
 
-    public void paintComponent(Graphics g) {
-
-    }
 
     public void updateView(){
         this.add(profitLabel);
