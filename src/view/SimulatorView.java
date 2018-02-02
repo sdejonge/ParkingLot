@@ -18,7 +18,7 @@ public class SimulatorView extends JFrame {
 
     //    Create Jbuttons
     public JButton start;
-    public JButton Pause;
+    public JButton stop;
     public JButton honderdKeer;
     public JButton tienKeer;
 
@@ -43,14 +43,14 @@ public class SimulatorView extends JFrame {
 
         //Create buttons to show on JPanel
         start = new JButton("start");
-        Pause = new JButton("Pause");
+        stop = new JButton("stop");
         honderdKeer = new JButton("+100");
         tienKeer = new JButton("+10");
 
         //  Add buttons to JPanel
         buttonPanel = new JPanel();
         buttonPanel.add(start);
-        buttonPanel.add(Pause);
+        buttonPanel.add(stop);
         buttonPanel.add(honderdKeer);
         buttonPanel.add(tienKeer);
 

@@ -11,9 +11,8 @@ public class SimulatorModel extends AbstractModel implements Runnable{
 	private static final String PASS = "2";
 
     public boolean running = false;
-    public boolean Paused = false;
 
-	private CarQueue entranceCarQueue;
+    private CarQueue entranceCarQueue;
     private CarQueue entrancePassQueue;
     private CarQueue paymentCarQueue;
     private CarQueue exitCarQueue;
@@ -47,6 +46,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     public int[] weekProfit;
 
     public Thread StartThread;
+    private Object lock = new Object();
 
     private int numberOfFloors;
     private int numberOfRows;
@@ -81,7 +81,6 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     }
 //    Create start method for creating a new thread
     public void start(){
-        Paused = false;
         running=true;
         StartThread = new Thread(this);
         StartThread.start();
@@ -96,6 +95,18 @@ public class SimulatorModel extends AbstractModel implements Runnable{
             }
         }
     }
+
+    public void pause(){
+            synchronized(lock) {
+                while(running) {
+                    try {
+                        lock.wait();
+                    } catch(InterruptedException e) {
+                        // nothing
+                    }
+                }
+            }
+        }
 
     public void runOnce(){
         while(running) {
