@@ -1,5 +1,6 @@
 package model;
 
+import controller.Controller;
 import view.*;
 
 import java.util.Random;
@@ -8,7 +9,15 @@ public class SimulatorModel extends AbstractModel implements Runnable{
 
 	private static final String AD_HOC = "1";
 	private static final String PASS = "2";
-	
+
+public class SimulatorModel implements Runnable {
+
+	private static final String AD_HOC = "1";
+	private static final String PASS = "2";
+
+    public boolean running = false;
+    public boolean Paused = false;
+    
 	private CarQueue entranceCarQueue;
     private CarQueue entrancePassQueue;
     private CarQueue paymentCarQueue;
@@ -69,14 +78,25 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         System.out.println("absReserv: " + absReserv);
 
         weekProfit = new int[7];
+        simView = new SimulatorView(this, numberOfFloors, numberOfRows, numberOfPlaces);
+        Controller control = new Controller(this,simView);
 
         simView = new SimulatorView(this, numberOfFloors, numberOfRows, numberOfPlaces);
     }
+//    Create start method for creating a new thread
+    public void start(){
+        Paused = false;
+        running=true;
+        new Thread  (this).start();
+    }
 
+//    Runs te project
     public void run() {
-        for (int i = 0; i < 10000; i++) {
-            tick();
-            tickLeave();
+        while(running){
+            for (int i = 0; i < 10000; i++) {
+                tick();
+                tickLeave();
+            }
         }
     }
 
