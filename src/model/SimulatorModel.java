@@ -46,6 +46,8 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     public double profit;
     public int[] weekProfit;
 
+    public Thread StartThread;
+
     private int numberOfFloors;
     private int numberOfRows;
     private int numberOfPlaces;
@@ -77,12 +79,12 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         simView = new SimulatorView(this, numberOfFloors, numberOfRows, numberOfPlaces);
         Controller control = new Controller(this,simView);
     }
-
-    //    Create start method for creating a new thread
+//    Create start method for creating a new thread
     public void start(){
         Paused = false;
         running=true;
-        new Thread  (this).start();
+        StartThread = new Thread(this);
+        StartThread.start();
     }
 
     //    Runs te project
