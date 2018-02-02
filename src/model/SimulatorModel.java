@@ -17,9 +17,10 @@ public class SimulatorModel {
 
     private SimulatorView simView;
 
-    private int day = 0;
-    private int hour = 0;
-    private int minute = 0;
+    public int day = 0;
+    public int hour = 0;
+    public int minute = 0;
+    public String day_text = "Monday";
 
     private int tickPause = 100;
     private int tick = 0;
@@ -82,13 +83,41 @@ public class SimulatorModel {
     	advanceTime();
     	handleExit();
         simView.updateView();
-        tick++;
+        minute += 20;
+        if(minute == 59){
+            hour += 1;
+        }
+        if(hour == 23 && minute == 59){
+            day += 1;
+            dayToText();
+        }
         try {
             Thread.sleep(tickPause);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     	handleEntrance();
+    }
+
+    public void dayToText(){
+        if(day == 1){
+            day_text = "Tuesday";
+        }
+        else if(day == 2){
+            day_text = "Wednesday";
+        }
+        else if(day == 3){
+            day_text = "Thursday";
+        }
+        else if(day == 4){
+            day_text = "Friday";
+        }
+        else if(day == 5){
+            day_text = "Saturday";
+        }
+        else if(day == 6){
+            day_text = "Sunday";
+        }
     }
 
     public void tickLeave() {
