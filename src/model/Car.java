@@ -10,7 +10,7 @@ import java.util.Random;
  * @version 30-01-2018
  */
 
-public abstract class Car {
+public abstract class Car{
 
     //Location of the car object within the parking lot.
     private Location location;

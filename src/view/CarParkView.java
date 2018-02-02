@@ -5,7 +5,7 @@ import model.*;
 import javax.swing.*;
 import java.awt.*;
 
-public class CarParkView extends JPanel {
+public class CarParkView extends AbstractDisplayPane {
 
     private Dimension size;
     private Image carParkImage;
@@ -18,6 +18,7 @@ public class CarParkView extends JPanel {
      * Constructor for objects of class CarPark
      */
     public CarParkView(SimulatorModel model, int numberOfFloors, int numberOfRows, int numberOfPlaces) {
+        super(model);
         this.model = model;
         size = new Dimension(0, 0);
 
