@@ -1,15 +1,18 @@
 package model;
 
+import controller.Controller;
 import view.*;
 
 import java.util.Random;
 
-public class SimulatorModel {
+public class SimulatorModel implements Runnable {
 
 	private static final String AD_HOC = "1";
 	private static final String PASS = "2";
-	
-	
+
+    public boolean running = false;
+    public boolean Paused = false;
+
 	private CarQueue entranceCarQueue;
     private CarQueue entrancePassQueue;
     private CarQueue paymentCarQueue;
@@ -69,13 +72,22 @@ public class SimulatorModel {
         System.out.println("absReserv: " + absReserv);
 
         simView = new SimulatorView(this, numberOfFloors, numberOfRows, numberOfPlaces);
+        Controller control = new Controller(this,simView);
 
     }
 
+    public void start(){
+        Paused = false;
+        running=true;
+        new Thread  (this).start();
+    }
+
     public void run() {
-        for (int i = 0; i < 10000; i++) {
-            tick();
-            tickLeave();
+        while(running){
+            for (int i = 0; i < 10000; i++) {
+                tick();
+                tickLeave();
+            }
         }
     }
     
