@@ -44,6 +44,7 @@ public class SimulatorModel implements Runnable {
     private int stayMinutes; //The amount of time a car stays in the parking lot
     private double prijs = 1.2 ; //The price per hour
     public double profit;
+    public double dayProfit;
 
     private int numberOfFloors;
     private int numberOfRows;
