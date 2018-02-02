@@ -24,7 +24,9 @@ public class ProfitView extends AbstractDisplayPane {
         mondayProfit.setSize(40,25);
         double profitValue = model.profit; //Save the model.profit value into the variable profitValue to work with.
         double roundProfit = Math.round(profitValue * 100.0) / 100.0; //Round the value of ProfitValue and display it with 2 decimals
+        double mondayProfitValue = Math.round(model.weekProfit[0] * 100.0) / 100.0;
         profit.setText("€ " + (String.valueOf(roundProfit)));
-        mondayProfit.setText(String.valueOf(model.weekProfit[0]));
+        mondayProfit.setText(String.valueOf(mondayProfitValue));
+        repaint();
     }
 }

@@ -44,7 +44,8 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     private int stayMinutes; //The amount of time a car stays in the parking lot
     private double prijs = 1.2 ; //The price per hour
     public double profit;
-    public int[] weekProfit;
+    public double day_profit;
+    public double[] weekProfit;
 
     private int numberOfFloors;
     private int numberOfRows;
@@ -52,6 +53,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     private int absReserv; //houd bij hoeveel plaatsen in elke rij worden gereserveerd voor abonnementhouders, wordt berekend in de constructor
     private int numberOfOpenSpots;
     private Car[][][] cars;
+    private PieChartView pieChart;
 
     public SimulatorModel(int numberOfFloors, int numberOfRows, int numberOfPlaces, int Reserv){
         entranceCarQueue = new CarQueue();
@@ -72,10 +74,10 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         absReserv = (int)a;
         System.out.println("absReserv: " + absReserv);
 
-        weekProfit = new int[7];
+        weekProfit = new double[7];
 
         simView = new SimulatorView(this, numberOfFloors, numberOfRows, numberOfPlaces);
-        Controller control = new Controller(this,simView);
+        Controller control = new Controller(this, simView);
     }
 
     //    Create start method for creating a new thread
@@ -110,6 +112,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     	handleExit();
         handleEntrance();
         notifyViews();
+        simView.updateView();
         try {
             Thread.sleep(tickPause);
         } catch (InterruptedException e) {
@@ -137,8 +140,8 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         }
         else if(day == 1){
             day_text = "Tuesday";
-            weekProfit[0] = (int) profit;
-            profit = 0;
+            weekProfit[0] = day_profit;
+            day_profit = 0;
         }
         else if(day == 2){
             day_text = "Wednesday";
@@ -236,6 +239,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
             Car car = paymentCarQueue.removeCar();
             stayMinutes = ((AdHocCar) car).getStayMinutes(); //Set the minutes a car stays in the parking lot.
             profit += stayMinutes * prijs / 60; //Formula to calculate the amount of money to be paid.
+            day_profit += stayMinutes * prijs / 60; //Formula to calculate the amount of money to be paid.
             carLeavesSpot(car);
             i++;
         }

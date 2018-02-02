@@ -21,9 +21,6 @@ public class TextView extends AbstractDisplayPane {
     public TextView(SimulatorModel model){
         super(model);
         this.model = model;
-    }
-
-    public void updateView(){
         this.add(redLabel);
         this.add(red);
         this.add(blueLabel);
@@ -37,11 +34,15 @@ public class TextView extends AbstractDisplayPane {
         totalCars.setSize(50,25);
         day.setSize(65,25);
         time.setSize(40,50);
+    }
+
+    public void updateView(){
         red.setText(String.valueOf(model.redCars));
         blue.setText(String.valueOf(model.blueCars));
         totalCars.setText(String.valueOf(model.totalCars));
         day.setText(String.valueOf(model.day_text));
         time.setText(String.valueOf(model.hour) + ":" + String.valueOf(model.minute));
+        repaint();
     }
 }
 
