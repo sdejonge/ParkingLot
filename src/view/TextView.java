@@ -17,9 +17,6 @@ public class TextView extends JPanel {
     private JLabel blue = new JLabel("");
     private JLabel totalCars = new JLabel("");
     private JLabel profit = new JLabel("");
-    private JLabel openSpots = new JLabel("");
-    private JLabel time = new JLabel("");
-    private JLabel day = new JLabel("");
 
     public TextView(SimulatorModel model){
         this.model = model;
@@ -34,26 +31,19 @@ public class TextView extends JPanel {
         this.add(totalCars);
         this.add(profitLabel);
         this.add(profit);
-        this.add(openSpots);
-        this.add(day);
-        this.add(time);
         red.setPreferredSize(new Dimension(50, 25));
         blue.setPreferredSize(new Dimension(50, 25));
         totalCars.setPreferredSize(new Dimension(50, 25));
-        profit.setPreferredSize(new Dimension(50,25));
-        openSpots.setPreferredSize(new Dimension(50,25));
-        day.setPreferredSize(new Dimension(50,25));
-        time.setPreferredSize(new Dimension(40,25));
+        profit.setPreferredSize(new Dimension(100,25));
     }
 
     public void updateView(SimulatorModel model){
         red.setText(String.valueOf(model.redCars));
         blue.setText(String.valueOf(model.blueCars));
         totalCars.setText(String.valueOf(model.totalCars));
-        profit.setText("€ " + String.valueOf(model.profit));
-        openSpots.setText(String.valueOf(model.openSpots()));
-        day.setText(String.valueOf(model.day_text));
-        time.setText(String.valueOf(model.hour) + ":" + String.valueOf(model.minute));
+        double profitValue = model.profit; //Save the model.profit value into the variable profitValue to work with.
+        double roundProfit = Math.round(profitValue * 100.0) / 100.0; //Round the value of ProfitValue and display it with 2 decimals
+        profit.setText("€ " + (String.valueOf(roundProfit)));
         repaint();
     }
 }
