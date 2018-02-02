@@ -37,9 +37,9 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     int paymentSpeed = 7; // number of cars that can pay per minute
     int exitSpeed = 5; // number of cars that can leave per minute
 
-    public int redCars;
-    public int blueCars;
-    public int totalCars;
+    public float redCars;
+    public float blueCars;
+    public float totalCars;
 
     private int stayMinutes; //The amount of time a car stays in the parking lot
     private double prijs = 1.2 ; //The price per hour
@@ -53,7 +53,6 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     private int absReserv; //houd bij hoeveel plaatsen in elke rij worden gereserveerd voor abonnementhouders, wordt berekend in de constructor
     private int numberOfOpenSpots;
     private Car[][][] cars;
-    private PieChartView pieChart;
 
     public SimulatorModel(int numberOfFloors, int numberOfRows, int numberOfPlaces, int Reserv){
         entranceCarQueue = new CarQueue();
@@ -132,6 +131,20 @@ public class SimulatorModel extends AbstractModel implements Runnable{
                 }
             }
         }
+    }
+
+    public int getTotalBlueSpots(){
+        int totalSpots = this.numberOfFloors * this.numberOfRows * this.numberOfPlaces;
+        float blueCalc = (blueCars / totalSpots);
+        int blueDegree = Math.round(360 * blueCalc);
+        return blueDegree;
+    }
+
+    public int getTotalRedSpots(){
+        int totalSpots = this.numberOfFloors * this.numberOfRows * this.numberOfPlaces;
+        float redCalc = redCars / totalSpots;
+        int redDegree = Math.round(360 * redCalc);
+        return redDegree;
     }
 
     public void dayToText(){
