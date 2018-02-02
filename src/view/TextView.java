@@ -41,9 +41,9 @@ public class TextView extends JPanel {
         red.setText(String.valueOf(model.redCars));
         blue.setText(String.valueOf(model.blueCars));
         totalCars.setText(String.valueOf(model.totalCars));
-        double value = model.profit;
-        double roundOff = Math.round(value * 100.0) / 100.0;
-        profit.setText("€ " + (String.valueOf(roundOff)));
+        double profitValue = model.profit; //Save the model.profit value into the variable profitValue to work with.
+        double roundProfit = Math.round(profitValue * 100.0) / 100.0; //Round the value of ProfitValue and display it with 2 decimals
+        profit.setText("€ " + (String.valueOf(roundProfit)));
         repaint();
     }
 }
