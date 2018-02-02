@@ -8,7 +8,7 @@ public class Controller extends AbstractController{
 
     /**
      * Register the model to the controller.
-     *
+     * test eens pls
      * @param model the model
      */
     Controller(SimulatorModel model) {
