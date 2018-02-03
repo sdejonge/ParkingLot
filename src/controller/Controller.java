@@ -33,15 +33,13 @@ public class Controller extends AbstractController{
     public void actionPerformed(ActionEvent e) {
         //If start is pressed
         if(e.getSource() == mainView.start){
-        //Check running to make sure Sim is not already running
-            while(!model.running){
-                model.start();
-            }
+            model.setRunning(true);
+            System.out.println("Startknop Ingedrukt, running = " + model.getRunning());
         }
         //If stop is pressed
         else if(e.getSource() == mainView.stop) {
-            System.out.println("Thread should now be stopped.");
-            model.pause();
+            model.setRunning(false);
+            System.out.println("Stopknop Ingedrukt, running = " + model.getRunning());
         }
         else if(e.getSource() == mainView.tienKeer){
 
