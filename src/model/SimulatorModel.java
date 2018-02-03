@@ -1,6 +1,6 @@
 package model;
 
-import controller.Controller;
+import controller.*;
 import view.*;
 
 import java.util.Random;
@@ -10,10 +10,9 @@ public class SimulatorModel extends AbstractModel implements Runnable{
 	private static final String AD_HOC = "1";
 	private static final String PASS = "2";
 
-    public boolean running = false;
-    public boolean Paused = false;
+    private boolean running = false;
 
-	private CarQueue entranceCarQueue;
+    private CarQueue entranceCarQueue;
     private CarQueue entrancePassQueue;
     private CarQueue paymentCarQueue;
     private CarQueue exitCarQueue;
@@ -37,9 +36,9 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     int paymentSpeed = 7; // number of cars that can pay per minute
     int exitSpeed = 5; // number of cars that can leave per minute
 
-    public int redCars;
-    public int blueCars;
-    public int totalCars;
+    public float redCars;
+    public float blueCars;
+    public float totalCars;
 
     private int stayMinutes; //The amount of time a car stays in the parking lot
     private double prijs = 1.2 ; //The price per hour
@@ -48,6 +47,9 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     public double nextProfit; //The amount of profit on a single day.
     public double estimateProfit; //The estimated amount of money per day.
     public int[] weekProfit;
+
+    public Thread StartThread;
+    private Object lock = new Object();
 
     private int numberOfFloors;
     private int numberOfRows;
@@ -80,23 +82,31 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         simView = new SimulatorView(this, numberOfFloors, numberOfRows, numberOfPlaces);
         Controller control = new Controller(this,simView);
     }
-
-    //    Create start method for creating a new thread
+//    Create start method for creating a new thread
     public void start(){
-        Paused = false;
         running=true;
-        new Thread  (this).start();
+        StartThread = new Thread(this);
+        StartThread.start();
     }
 
     //    Runs te project
     public void run() {
-        while(running){
-            for (int i = 0; i < 10000; i++) {
-                tick();
-                tickLeave();
+        tick();
+        tickLeave();
+
+    }
+
+    public void pause(){
+            synchronized(lock) {
+                while(running) {
+                    try {
+                        lock.wait();
+                    } catch(InterruptedException e) {
+                        // nothing
+                    }
+                }
             }
         }
-    }
 
     public void runOnce(){
         while(running) {
@@ -132,6 +142,20 @@ public class SimulatorModel extends AbstractModel implements Runnable{
                 }
             }
         }
+    }
+
+    public int getTotalBlueSpots(){
+        int totalSpots = this.numberOfFloors * this.numberOfRows * this.numberOfPlaces;
+        float blueCalc = (blueCars / totalSpots);
+        int blueDegree = Math.round(360 * blueCalc);
+        return blueDegree;
+    }
+
+    public int getTotalRedSpots(){
+        int totalSpots = this.numberOfFloors * this.numberOfRows * this.numberOfPlaces;
+        float redCalc = redCars / totalSpots;
+        int redDegree = Math.round(360 * redCalc);
+        return redDegree;
     }
 
     public void dayToText(){
@@ -435,4 +459,8 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     public int getReserv() {
         return(absReserv);
     }
+
+    public void setRunning(boolean value) {running = value;}
+
+    public boolean getRunning() {return running;}
 }
