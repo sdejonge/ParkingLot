@@ -13,6 +13,7 @@ public class CarParkView extends AbstractDisplayPane {
     private int numberOfFloors;
     private int numberOfRows;
     private int numberOfPlaces;
+    private int floorWidth;
 
     /**
      * Constructor for objects of class CarPark
@@ -25,13 +26,28 @@ public class CarParkView extends AbstractDisplayPane {
         this.numberOfFloors = numberOfFloors;
         this.numberOfRows = numberOfRows;
         this.numberOfPlaces = numberOfPlaces;
+
+        //floorWidth = 260;
+
+
+        if((numberOfRows%2)==0) {
+            // even
+            floorWidth = ((numberOfRows -2)/2)*75 + 110;
+        }
+        else {
+            // oneven
+            floorWidth = ((numberOfRows - 1)*75 + 90);
+        }
+        System.out.println("floorWith: " + floorWidth);
+
+
     }
 
     /**
      * Overridden. Tell the GUI manager how big we would like to be.
      */
     public Dimension getPreferredSize() {
-        return new Dimension(800, 500);
+        return new Dimension((floorWidth*numberOfFloors + 20), 500);
     }
 
     /**
@@ -95,7 +111,7 @@ public class CarParkView extends AbstractDisplayPane {
     private void drawPlace(Graphics graphics, Location location, Color color) {
         graphics.setColor(color);
         graphics.fillRect(
-                location.getFloor() * 260 + (1 + (int)Math.floor(location.getRow() * 0.5)) * 75 + (location.getRow() % 2) * 20,
+                location.getFloor() * floorWidth + (1 + (int)Math.floor(location.getRow() * 0.5)) * 75 + (location.getRow() % 2) * 20,
                 60 + location.getPlace() * 10,
                 20 - 1,
                 10 - 1); // TODO use dynamic size or constants
