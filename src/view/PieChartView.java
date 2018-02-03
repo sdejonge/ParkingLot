@@ -2,6 +2,7 @@ package view;
 
 import model.SimulatorModel;
 
+
 import javax.swing.*;
 import java.util.*;
 import java.awt.*;
@@ -35,5 +36,3 @@ class PieChartView extends AbstractDisplayPane {
     }
 
 }
-
-
