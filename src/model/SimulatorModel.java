@@ -10,7 +10,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
 	private static final String AD_HOC = "1";
 	private static final String PASS = "2";
 
-    public boolean running = false;
+    private boolean running = false;
 
     private CarQueue entranceCarQueue;
     private CarQueue entrancePassQueue;
@@ -91,12 +91,9 @@ public class SimulatorModel extends AbstractModel implements Runnable{
 
     //    Runs te project
     public void run() {
-        while(running){
-            for (int i = 0; i < 10000; i++) {
-                tick();
-                tickLeave();
-            }
-        }
+        tick();
+        tickLeave();
+
     }
 
     public void pause(){
@@ -448,4 +445,8 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     public int getReserv() {
         return(absReserv);
     }
+
+    public void setRunning(boolean value) {running = value;}
+
+    public boolean getRunning() {return running;}
 }
