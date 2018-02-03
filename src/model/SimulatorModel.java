@@ -27,10 +27,10 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     private int tickPause = 100;
     private int tick = 0;
 
-    int weekDayArrivals= 100; // average number of arriving cars per hour
+    int weekDayArrivals = 100; // average number of arriving cars per hour
     int weekendArrivals = 200; // average number of arriving cars per hour
-    int weekDayPassArrivals= 50; // average number of arriving cars per hour
-    int weekendPassArrivals = 5; // average number of arriving cars per hour
+    int weekDayPassArrivals = 50; // average number of arriving cars per hour
+    int weekendPassArrivals = 100; // average number of arriving cars per hour
 
     int enterSpeed = 12; // number of cars that can enter per minute
     int paymentSpeed = 7; // number of cars that can pay per minute
@@ -42,10 +42,10 @@ public class SimulatorModel extends AbstractModel implements Runnable{
 
     private int stayMinutes; //The amount of time a car stays in the parking lot
     private double prijs = 1.2 ; //The price per hour
-    public double totalProfit;
-    public int minutesElapsed = 0;
-    public double nextProfit;
-    public double estimateProfit;
+    public double totalProfit; // Total amount of profit since the start of running the application
+    public int minutesElapsed = 0; //Contains the amount of time ticks.
+    public double nextProfit; //The amount of profit on a single day.
+    public double estimateProfit; //The estimated amount of money per day.
     public int[] weekProfit;
 
     public Thread StartThread;
@@ -55,7 +55,9 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     private int numberOfRows;
     private int numberOfPlaces;
     private int absReserv; //houd bij hoeveel plaatsen in elke rij worden gereserveerd voor abonnementhouders, wordt berekend in de constructor
+    private int totalReserv;
     private int numberOfOpenSpots;
+    private int numberOfOpenSpotsPublic;
     private Car[][][] cars;
 
     public SimulatorModel(int numberOfFloors, int numberOfRows, int numberOfPlaces, int Reserv){
@@ -67,7 +69,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         this.numberOfFloors = numberOfFloors;
         this.numberOfRows = numberOfRows;
         this.numberOfPlaces = numberOfPlaces;
-        this.numberOfOpenSpots =numberOfFloors*numberOfRows*numberOfPlaces;
+        this.numberOfOpenSpots = numberOfFloors * numberOfRows * numberOfPlaces;
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
 
         //bereken hoeveel plaatsen uit elke rij, worden gereserveerd voor abonnementhouders
@@ -81,6 +83,10 @@ public class SimulatorModel extends AbstractModel implements Runnable{
 
         simView = new SimulatorView(this, numberOfFloors, numberOfRows, numberOfPlaces);
         Controller control = new Controller(this,simView);
+
+        totalReserv = (numberOfRows * numberOfFloors) * absReserv;
+        numberOfOpenSpotsPublic = numberOfOpenSpots - totalReserv;
+        System.out.println(totalReserv);
     }
 //    Create start method for creating a new thread
     public void start(){
@@ -192,6 +198,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         while (minute > 59) {
             minute -= 60;
             hour++;
+            setIncomingValues();
         }
         while (hour > 23) {
             hour -= 24;
@@ -201,7 +208,13 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         while (day > 6) {
             day -= 7;
         }
+    }
 
+    public void setIncomingValues() {
+        if (hour < 3) {
+            weekDayArrivals = 100;
+            weekDayPassArrivals = 50;
+        }
     }
 
     private void handleEntrance(){
@@ -209,24 +222,24 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     	carsEntering(entranceCarQueue, 1);
         carsEntering(entrancePassQueue, 2);
     }
-    
+
     private void handleExit(){
         carsReadyToLeave();
         carsPaying();
         carsLeaving();
     }
-    
+
     private void carsArriving(){
     	int numberOfCars=getNumberOfCars(weekDayArrivals, weekendArrivals);
-        addArrivingCars(numberOfCars, AD_HOC);    	
+        addArrivingCars(numberOfCars, AD_HOC);
     	numberOfCars=getNumberOfCars(weekDayPassArrivals, weekendPassArrivals);
-        addArrivingCars(numberOfCars, PASS);    	
+        addArrivingCars(numberOfCars, PASS);
     }
 
     private void carsEntering(CarQueue queue, int carType){
         int i=0;
         // Remove car from the front of the queue and assign to a parking space.
-    	while (queue.carsInQueue()>0 && 
+    	while (queue.carsInQueue()>0 &&
     			getNumberOfOpenSpots()>0 &&
     			i<enterSpeed) {
             Car car = queue.removeCar();
@@ -241,7 +254,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
             i++;
         }
     }
-    
+
     private void carsReadyToLeave(){
         // Add leaving cars to the payment queue.
         Car car = getFirstLeavingCar();
@@ -279,16 +292,16 @@ public class SimulatorModel extends AbstractModel implements Runnable{
             i++;
         }
     }
-    
+
     private void carsLeaving(){
         // Let cars leave.
     	int i=0;
     	while (exitCarQueue.carsInQueue()>0 && i < exitSpeed){
             exitCarQueue.removeCar();
             i++;
-    	}	
+    	}
     }
-    
+
     private int getNumberOfCars(int weekDay, int weekend){
         Random random = new Random();
 
@@ -300,15 +313,15 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         // Calculate the number of cars that arrive this minute.
         double standardDeviation = averageNumberOfCarsPerHour * 0.3;
         double numberOfCarsPerHour = averageNumberOfCarsPerHour + random.nextGaussian() * standardDeviation;
-        return (int)Math.round(numberOfCarsPerHour / 60);	
+        return (int)Math.round(numberOfCarsPerHour / 60);
     }
-    
+
     private void addArrivingCars(int numberOfCars, String type){
         // Add the cars to the back of the queue.
     	switch(type) {
-    	case AD_HOC: 
+    	case AD_HOC:
             for (int i = 0; i < numberOfCars; i++) {
-                if (numberOfOpenSpots > 0) {
+                if (redCars < numberOfOpenSpotsPublic) {
                     entranceCarQueue.addCar(new AdHocCar());
                     redCars++;
                     totalCars = redCars + blueCars;
@@ -317,16 +330,16 @@ public class SimulatorModel extends AbstractModel implements Runnable{
             break;
     	case PASS:
             for (int i = 0; i < numberOfCars; i++) {
-                if (numberOfOpenSpots > 0) {
+                if (blueCars < totalReserv) {
                     entrancePassQueue.addCar(new ParkingPassCar());
                     blueCars++;
                     totalCars = redCars + blueCars;
                 }
             }
-            break;	            
+            break;
     	}
     }
-    
+
     private void carLeavesSpot(Car car){
         if (car instanceof AdHocCar) {
             redCars--;
