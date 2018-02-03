@@ -6,8 +6,7 @@ import javax.swing.*;
 import java.util.*;
 import java.awt.*;
 
-public class PieChartView extends AbstractDisplayPane {
-
+class PieChartView extends AbstractDisplayPane {
     private Dimension size;
 
 
@@ -31,23 +30,10 @@ public class PieChartView extends AbstractDisplayPane {
         }
     }
 
-//    public void updateView(){
-//        red = model.redCars;
-//        blue = model.blueCars;
-//        total = model.totalCars;
-//        if(total > 0) {
-//            float blueCalc = (blue / total);
-//            this.degreeBlue = Math.round(360 * blueCalc);
-//            float redCalc = (blue / total);
-//            this.degreeRed = Math.round(360 * redCalc);
-//        }
-//        repaint();
-//    }
-
     public Dimension getPreferredSize() {
         return new Dimension(300, 100);
     }
 
-
 }
+
 

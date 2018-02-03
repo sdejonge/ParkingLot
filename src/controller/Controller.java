@@ -23,7 +23,7 @@ public class Controller extends AbstractController{
     public void addButtonActionListener(){
         //Add action listeners to the buttons created in SimulatorView.
         mainView.start.addActionListener(this);
-        mainView.Pause.addActionListener(this);
+        mainView.stop.addActionListener(this);
         mainView.tienKeer.addActionListener(this);
         mainView.honderdKeer.addActionListener(this);
     }
@@ -33,32 +33,17 @@ public class Controller extends AbstractController{
     public void actionPerformed(ActionEvent e) {
         //If start is pressed
         if(e.getSource() == mainView.start){
-            System.out.println("start knop pressed");
-            System.out.println(model.running);
-            while(!model.running){
-                model.running = true;
-                model.start();
-            }
-
+            model.setRunning(true);
+            System.out.println("Startknop Ingedrukt, running = " + model.getRunning());
         }
-        //If pause is pressed
-        else if(e.getSource() == mainView.Pause) {
-            System.out.println("Thread should now be stopped.");
-            if ( model.running ) {
-                model.Paused = true;
-                System.out.println(model.Paused);
-                System.out.println("Model paused");
-            } else if ( model.Paused ) {
-                model.Paused = false;
-                System.out.println(model.Paused);
-                System.out.println("Model resumed");
-            }
-
+        //If stop is pressed
+        else if(e.getSource() == mainView.stop) {
+            model.setRunning(false);
+            System.out.println("Stopknop Ingedrukt, running = " + model.getRunning());
         }
         else if(e.getSource() == mainView.tienKeer){
 
         }
-
         else if(e.getSource() == mainView.honderdKeer){
 
         }

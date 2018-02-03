@@ -1,6 +1,6 @@
 package model;
 
-import controller.Controller;
+import controller.*;
 import view.*;
 
 import java.util.Random;
@@ -10,10 +10,9 @@ public class SimulatorModel extends AbstractModel implements Runnable{
 	private static final String AD_HOC = "1";
 	private static final String PASS = "2";
 
-    public boolean running = false;
-    public boolean Paused = false;
+    private boolean running = false;
 
-	private CarQueue entranceCarQueue;
+    private CarQueue entranceCarQueue;
     private CarQueue entrancePassQueue;
     private CarQueue paymentCarQueue;
     private CarQueue exitCarQueue;
@@ -43,9 +42,14 @@ public class SimulatorModel extends AbstractModel implements Runnable{
 
     private int stayMinutes; //The amount of time a car stays in the parking lot
     private double prijs = 1.2 ; //The price per hour
-    public double profit;
-    public double day_profit;
-    public double[] weekProfit;
+    public double totalProfit;
+    public int minutesElapsed = 0;
+    public double nextProfit;
+    public double estimateProfit;
+    public int[] weekProfit;
+
+    public Thread StartThread;
+    private Object lock = new Object();
 
     private int numberOfFloors;
     private int numberOfRows;
@@ -73,28 +77,36 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         absReserv = (int)a;
         System.out.println("absReserv: " + absReserv);
 
-        weekProfit = new double[7];
+        weekProfit = new int[7];
 
         simView = new SimulatorView(this, numberOfFloors, numberOfRows, numberOfPlaces);
-        Controller control = new Controller(this, simView);
+        Controller control = new Controller(this,simView);
     }
-
-    //    Create start method for creating a new thread
+//    Create start method for creating a new thread
     public void start(){
-        Paused = false;
         running=true;
-        new Thread  (this).start();
+        StartThread = new Thread(this);
+        StartThread.start();
     }
 
     //    Runs te project
     public void run() {
-        while(running){
-            for (int i = 0; i < 10000; i++) {
-                tick();
-                tickLeave();
+        tick();
+        tickLeave();
+
+    }
+
+    public void pause(){
+            synchronized(lock) {
+                while(running) {
+                    try {
+                        lock.wait();
+                    } catch(InterruptedException e) {
+                        // nothing
+                    }
+                }
             }
         }
-    }
 
     public void runOnce(){
         while(running) {
@@ -111,7 +123,6 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     	handleExit();
         handleEntrance();
         notifyViews();
-        simView.updateView();
         try {
             Thread.sleep(tickPause);
         } catch (InterruptedException e) {
@@ -153,8 +164,8 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         }
         else if(day == 1){
             day_text = "Tuesday";
-            weekProfit[0] = day_profit;
-            day_profit = 0;
+            weekProfit[0] = (int) totalProfit;
+            totalProfit = 0;
         }
         else if(day == 2){
             day_text = "Wednesday";
@@ -176,6 +187,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     private void advanceTime(){
         // Advance the time by one minute.
         minute++;
+        minutesElapsed++;
 
         while (minute > 59) {
             minute -= 60;
@@ -251,8 +263,18 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     	while (paymentCarQueue.carsInQueue()>0 && i < paymentSpeed) {
             Car car = paymentCarQueue.removeCar();
             stayMinutes = ((AdHocCar) car).getStayMinutes(); //Set the minutes a car stays in the parking lot.
-            profit += stayMinutes * prijs / 60; //Formula to calculate the amount of money to be paid.
-            day_profit += stayMinutes * prijs / 60; //Formula to calculate the amount of money to be paid.
+            totalProfit += stayMinutes * prijs / 60; //Formula to calculate the amount of money to be paid.
+
+            if (minutesElapsed > 1439) {
+                minutesElapsed = 0;
+                nextProfit = 0;
+                estimateProfit = 0;
+            }
+            else {
+                nextProfit += stayMinutes * prijs / 60;
+                estimateProfit = nextProfit / minutesElapsed * 1440;
+            }
+
             carLeavesSpot(car);
             i++;
         }
@@ -437,4 +459,8 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     public int getReserv() {
         return(absReserv);
     }
+
+    public void setRunning(boolean value) {running = value;}
+
+    public boolean getRunning() {return running;}
 }

@@ -18,7 +18,7 @@ public class SetupView extends JFrame {
         JLabel labelFloors = new JLabel("Floors: ");
         JLabel labelRows = new JLabel("Rows: ");
         JLabel labelPlaces = new JLabel("Places: ");
-        JLabel labelReserv = new JLabel("% Reserver: ");
+        JLabel labelReserv = new JLabel("% Reserve: ");
 
         //Voeg invoervelden toe
         JTextField invoerFloors = new JTextField();
