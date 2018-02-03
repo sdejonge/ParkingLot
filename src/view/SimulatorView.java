@@ -11,9 +11,11 @@ public class SimulatorView extends JFrame {
     private CarParkView carParkView;
     private TextView textView;
     private ProfitView profitView;
+    private PieChartView pieChart;
 
     private SimulatorModel model;
     private JPanel topPanel;
+    private JPanel centerPanel;
     private JPanel buttonPanel;
 
     //    Create Jbuttons
@@ -27,6 +29,7 @@ public class SimulatorView extends JFrame {
         carParkView = new CarParkView(model, numberOfFloors, numberOfRows, numberOfPlaces);
         textView = new TextView(model);
         profitView = new ProfitView(model);
+        pieChart = new PieChartView(model);
 
         // Initiate frame
         JFrame frame = new JFrame("Parking simulator 1.0");
@@ -40,6 +43,13 @@ public class SimulatorView extends JFrame {
 
         topPanel.add(textView, BorderLayout.PAGE_START);
         topPanel.add(profitView, BorderLayout.PAGE_END);
+
+        centerPanel = new JPanel(new BorderLayout());
+        centerPanel.setBounds(10, 10, 800, 500);
+        centerPanel.setSize(800, 500);
+
+        centerPanel.add(pieChart, BorderLayout.CENTER);
+        centerPanel.add(carParkView, BorderLayout.LINE_START);
 
         //Create buttons to show on JPanel
         start = new JButton("start");
@@ -55,7 +65,7 @@ public class SimulatorView extends JFrame {
         buttonPanel.add(tienKeer);
 
         frame.getContentPane().add(topPanel, BorderLayout.PAGE_START);
-        frame.getContentPane().add(carParkView, BorderLayout.CENTER);
+        frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
         frame.getContentPane().add(buttonPanel, BorderLayout.PAGE_END);
 
         frame.pack();
