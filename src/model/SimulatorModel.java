@@ -7,8 +7,8 @@ import java.util.Random;
 
 public class SimulatorModel extends AbstractModel implements Runnable{
 
-	private static final String AD_HOC = "1";
-	private static final String PASS = "2";
+    private static final String AD_HOC = "1";
+    private static final String PASS = "2";
 
     private boolean running = false;
 
@@ -88,7 +88,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         numberOfOpenSpotsPublic = numberOfOpenSpots - totalReserv;
         System.out.println(totalReserv);
     }
-//    Create start method for creating a new thread
+    //    Create start method for creating a new thread
     public void start(){
         running=true;
         StartThread = new Thread(this);
@@ -112,7 +112,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
 
     public void tickTimes100() {
         for (int i = 1; i <= 100; i++) {
-        //If wait is true application will sleep till steps are done
+            //If wait is true application will sleep till steps are done
             tick(false);
             tickLeave(false);
         }
@@ -126,8 +126,8 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     }
 
     private void tick(boolean wait) {
-    	advanceTime();
-    	handleExit();
+        advanceTime();
+        handleExit();
         handleEntrance();
         notifyViews();
         if(wait){
@@ -241,8 +241,8 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     }
 
     private void handleEntrance(){
-    	carsArriving();
-    	carsEntering(entranceCarQueue, 1);
+        carsArriving();
+        carsEntering(entranceCarQueue, 1);
         carsEntering(entrancePassQueue, 2);
     }
 
@@ -253,9 +253,9 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     }
 
     private void carsArriving(){
-    	int numberOfCars=getNumberOfCars(weekDayArrivals, weekendArrivals);
+        int numberOfCars=getNumberOfCars(weekDayArrivals, weekendArrivals);
         addArrivingCars(numberOfCars, AD_HOC);
-    	numberOfCars=getNumberOfCars(weekDayPassArrivals, weekendPassArrivals);
+        numberOfCars=getNumberOfCars(weekDayPassArrivals, weekendPassArrivals);
         addArrivingCars(numberOfCars, PASS);
     }
 
@@ -263,9 +263,9 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     private void carsEntering(CarQueue queue, int carType){
         int i=0;
         // Remove car from the front of the queue and assign to a parking space.
-    	while (queue.carsInQueue()>0 &&
-    			getNumberOfOpenSpots()>0 &&
-    			i<enterSpeed) {
+        while (queue.carsInQueue()>0 &&
+                getNumberOfOpenSpots()>0 &&
+                i<enterSpeed) {
             Car car = queue.removeCar();
             Location freeLocation = getFirstFreeLocation(carType);
             if (freeLocation != null) {
@@ -283,21 +283,21 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         // Add leaving cars to the payment queue.
         Car car = getFirstLeavingCar();
         while (car!=null) {
-        	if (car.getHasToPay()){
-	            car.setIsPaying(true);
-	            paymentCarQueue.addCar(car);
-        	}
-        	else {
-        		carLeavesSpot(car);
-        	}
+            if (car.getHasToPay()){
+                car.setIsPaying(true);
+                paymentCarQueue.addCar(car);
+            }
+            else {
+                carLeavesSpot(car);
+            }
             car = getFirstLeavingCar();
         }
     }
 
     private void carsPaying(){
         // Let cars pay.
-    	int i=0;
-    	while (paymentCarQueue.carsInQueue()>0 && i < paymentSpeed) {
+        int i=0;
+        while (paymentCarQueue.carsInQueue()>0 && i < paymentSpeed) {
             Car car = paymentCarQueue.removeCar();
             stayMinutes = ((AdHocCar) car).getStayMinutes(); //Set the minutes a car stays in the parking lot.
             totalProfit += stayMinutes * prijs / 60; //Formula to calculate the amount of money to be paid.
@@ -319,11 +319,11 @@ public class SimulatorModel extends AbstractModel implements Runnable{
 
     private void carsLeaving(){
         // Let cars leave.
-    	int i=0;
-    	while (exitCarQueue.carsInQueue()>0 && i < exitSpeed){
+        int i=0;
+        while (exitCarQueue.carsInQueue()>0 && i < exitSpeed){
             exitCarQueue.removeCar();
             i++;
-    	}
+        }
     }
 
     private int getNumberOfCars(int weekDay, int weekend){
@@ -342,26 +342,26 @@ public class SimulatorModel extends AbstractModel implements Runnable{
 
     private void addArrivingCars(int numberOfCars, String type){
         // Add the cars to the back of the queue.
-    	switch(type) {
-    	case AD_HOC:
-            for (int i = 0; i < numberOfCars; i++) {
-                if (redCars < numberOfOpenSpotsPublic) {
-                    entranceCarQueue.addCar(new AdHocCar());
-                    redCars++;
-                    totalCars = redCars + blueCars;
+        switch(type) {
+            case AD_HOC:
+                for (int i = 0; i < numberOfCars; i++) {
+                    if (redCars < numberOfOpenSpotsPublic) {
+                        entranceCarQueue.addCar(new AdHocCar());
+                        redCars++;
+                        totalCars = redCars + blueCars;
+                    }
                 }
-            }
-            break;
-    	case PASS:
-            for (int i = 0; i < numberOfCars; i++) {
-                if (blueCars < totalReserv) {
-                    entrancePassQueue.addCar(new ParkingPassCar());
-                    blueCars++;
-                    totalCars = redCars + blueCars;
+                break;
+            case PASS:
+                for (int i = 0; i < numberOfCars; i++) {
+                    if (blueCars < totalReserv) {
+                        entrancePassQueue.addCar(new ParkingPassCar());
+                        blueCars++;
+                        totalCars = redCars + blueCars;
+                    }
                 }
-            }
-            break;
-    	}
+                break;
+        }
     }
 
     private void carLeavesSpot(Car car){
@@ -371,7 +371,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         else if (car instanceof ParkingPassCar) {
             blueCars--;
         }
-    	removeCarAt(car.getLocation());
+        removeCarAt(car.getLocation());
         exitCarQueue.addCar(car);
     }
 
