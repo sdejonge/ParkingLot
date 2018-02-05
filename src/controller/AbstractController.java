@@ -8,13 +8,14 @@ import java.awt.event.ActionListener;
  * In this application one controller is modeled. The controller knows the model.
  * Currently the controller doesn't change any part of the view. Therefore
  * the controller is not aware of the view.
- *  
- * @author ronaldvandijk
+ *
+ * @author The Button Bashers
+ * @version 1.2
  *
  */
 public abstract class AbstractController implements ActionListener{
 	protected SimulatorModel model;
-	
+
 	/**
 	 * Register the model to the controller.
 	 *
