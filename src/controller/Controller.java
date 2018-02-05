@@ -42,10 +42,10 @@ public class Controller extends AbstractController{
             System.out.println("Stopknop Ingedrukt, running = " + model.getRunning());
         }
         else if(e.getSource() == mainView.tienKeer){
-
+            model.tickTimes10();
         }
         else if(e.getSource() == mainView.honderdKeer){
-
+            model.tickTimes100();
         }
         else{
             System.out.println("Something went wrong");

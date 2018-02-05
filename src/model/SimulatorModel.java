@@ -97,22 +97,10 @@ public class SimulatorModel extends AbstractModel implements Runnable{
 
     //    Runs te project
     public void run() {
-        tick();
-        tickLeave();
+        tick(true);
+        tickLeave(true);
 
     }
-
-    public void pause(){
-            synchronized(lock) {
-                while(running) {
-                    try {
-                        lock.wait();
-                    } catch(InterruptedException e) {
-                        // nothing
-                    }
-                }
-            }
-        }
 
     public void runOnce(){
         while(running) {
@@ -123,20 +111,36 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         notifyViews();
     }
 
+    public void tickTimes100() {
+        for (int i = 1; i <= 100; i++) {
+        //If wait is true application will sleep till steps are done
+            tick(false);
+            tickLeave(false);
+        }
+    }
 
-    private void tick() {
+    public void tickTimes10() {
+        for (int i = 1; i <= 10; i++) {
+            tick(false);
+            tickLeave(false);
+        }
+    }
+
+    private void tick(boolean wait) {
     	advanceTime();
     	handleExit();
         handleEntrance();
         notifyViews();
-        try {
-            Thread.sleep(tickPause);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if(wait){
+            try {
+                Thread.sleep(tickPause);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void tickLeave() {
+    public void tickLeave(boolean wait) {
         for (int floor = 0; floor < getNumberOfFloors(); floor++) {
             for (int row = 0; row < getNumberOfRows(); row++) {
                 for (int place = 0; place < getNumberOfPlaces(); place++) {
@@ -235,6 +239,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     	numberOfCars=getNumberOfCars(weekDayPassArrivals, weekendPassArrivals);
         addArrivingCars(numberOfCars, PASS);
     }
+
 
     private void carsEntering(CarQueue queue, int carType){
         int i=0;
