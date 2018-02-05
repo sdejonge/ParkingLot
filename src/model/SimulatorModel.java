@@ -27,7 +27,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     private int tickPause = 100;
     private int tick = 0;
 
-    int weekDayArrivals = 100; // average number of arriving cars per hour
+    int weekDayArrivals = 0; // average number of arriving cars per hour
     int weekendArrivals = 200; // average number of arriving cars per hour
     int weekDayPassArrivals = 50; // average number of arriving cars per hour
     int weekendPassArrivals = 100; // average number of arriving cars per hour
@@ -98,8 +98,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     //    Runs te project
     public void run() {
         tick(true);
-        tickLeave();
-
+        tickLeave(true);
     }
 
     public void runOnce(){
@@ -115,15 +114,14 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         for (int i = 1; i <= 100; i++) {
         //If wait is true application will sleep till steps are done
             tick(false);
-            tickLeave();
+            tickLeave(false);
         }
     }
 
     public void tickTimes10() {
         for (int i = 1; i <= 10; i++) {
             tick(false);
-            tickLeave();
-
+            tickLeave(false);
         }
     }
 
@@ -141,7 +139,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         }
     }
 
-    public void tickLeave() {
+    public void tickLeave(boolean wait) {
         for (int floor = 0; floor < getNumberOfFloors(); floor++) {
             for (int row = 0; row < getNumberOfRows(); row++) {
                 for (int place = 0; place < getNumberOfPlaces(); place++) {
@@ -216,8 +214,28 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     }
 
     public void setIncomingValues() {
-        if (hour < 3) {
+        if (hour >= 2 && hour < 5) {
+            weekDayArrivals = 0;
+            weekDayPassArrivals = 0;
+        }
+        else if (hour >= 5 && hour < 9) {
+            weekDayArrivals = 200;
+            weekDayPassArrivals = 100;
+        }
+        else if (hour >= 9 && hour < 13) {
+            weekDayArrivals = 50;
+            weekDayPassArrivals = 25;
+        }
+        else if (hour >= 13 && hour < 17) {
+            weekDayArrivals = 150;
+            weekDayPassArrivals = 75;
+        }
+        else if (hour >= 17 && hour < 22) {
             weekDayArrivals = 100;
+            weekDayPassArrivals = 50;
+        }
+        else if (hour >= 22) {
+            weekDayArrivals = 50;
             weekDayPassArrivals = 50;
         }
     }
@@ -336,9 +354,11 @@ public class SimulatorModel extends AbstractModel implements Runnable{
             break;
     	case PASS:
             for (int i = 0; i < numberOfCars; i++) {
+                if (blueCars < totalReserv) {
                     entrancePassQueue.addCar(new ParkingPassCar());
                     blueCars++;
                     totalCars = redCars + blueCars;
+                }
             }
             break;
     	}
