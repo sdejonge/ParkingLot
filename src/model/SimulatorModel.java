@@ -27,7 +27,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     private int tickPause = 100;
     private int tick = 0;
 
-    int weekDayArrivals = 0; // average number of arriving cars per hour
+    int weekDayArrivals = 100; // average number of arriving cars per hour
     int weekendArrivals = 200; // average number of arriving cars per hour
     int weekDayPassArrivals = 50; // average number of arriving cars per hour
     int weekendPassArrivals = 100; // average number of arriving cars per hour
@@ -97,22 +97,10 @@ public class SimulatorModel extends AbstractModel implements Runnable{
 
     //    Runs te project
     public void run() {
-        tick();
+        tick(true);
         tickLeave();
 
     }
-
-    public void pause(){
-            synchronized(lock) {
-                while(running) {
-                    try {
-                        lock.wait();
-                    } catch(InterruptedException e) {
-                        // nothing
-                    }
-                }
-            }
-        }
 
     public void runOnce(){
         while(running) {
@@ -123,15 +111,30 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         notifyViews();
     }
 
-    private void tick() {
+    public void tickTimes100() {
+        for (int i = 1; i <= 100; i++) {
+        //If wait is true application will sleep till steps are done
+            tick(false);
+        }
+    }
+
+    public void tickTimes10() {
+        for (int i = 1; i <= 10; i++) {
+            tick(false);
+        }
+    }
+
+    private void tick(boolean wait) {
     	advanceTime();
     	handleExit();
         handleEntrance();
         notifyViews();
-        try {
-            Thread.sleep(tickPause);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if(wait){
+            try {
+                Thread.sleep(tickPause);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -210,28 +213,8 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     }
 
     public void setIncomingValues() {
-        if (hour >= 2 && hour < 5) {
-            weekDayArrivals = 0;
-            weekDayPassArrivals = 0;
-        }
-        else if (hour >= 5 && hour < 9) {
-            weekDayArrivals = 200;
-            weekDayPassArrivals = 100;
-        }
-        else if (hour >= 9 && hour < 13) {
-            weekDayArrivals = 50;
-            weekDayPassArrivals = 25;
-        }
-        else if (hour >= 13 && hour < 17) {
-            weekDayArrivals = 150;
-            weekDayPassArrivals = 75;
-        }
-        else if (hour >= 17 && hour < 22) {
+        if (hour < 3) {
             weekDayArrivals = 100;
-            weekDayPassArrivals = 50;
-        }
-        else if (hour >= 22) {
-            weekDayArrivals = 50;
             weekDayPassArrivals = 50;
         }
     }
@@ -243,9 +226,9 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     }
 
     private void handleExit(){
-            carsReadyToLeave();
-            carsPaying();
-            carsLeaving();
+        carsReadyToLeave();
+        carsPaying();
+        carsLeaving();
     }
 
     private void carsArriving(){
@@ -254,6 +237,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     	numberOfCars=getNumberOfCars(weekDayPassArrivals, weekendPassArrivals);
         addArrivingCars(numberOfCars, PASS);
     }
+
 
     private void carsEntering(CarQueue queue, int carType){
         int i=0;
@@ -316,8 +300,8 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         // Let cars leave.
     	int i=0;
     	while (exitCarQueue.carsInQueue()>0 && i < exitSpeed){
-    	    exitCarQueue.removeCar();
-    	    i++;
+            exitCarQueue.removeCar();
+            i++;
     	}
     }
 
@@ -350,11 +334,6 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     	case PASS:
             for (int i = 0; i < numberOfCars; i++) {
                 if (blueCars < totalReserv) {
-                    entrancePassQueue.addCar(new ParkingPassCar());
-                    blueCars++;
-                    totalCars = redCars + blueCars;
-                }
-                else if (redCars < numberOfOpenSpotsPublic && blueCars >= totalReserv && totalCars < 540) {
                     entrancePassQueue.addCar(new ParkingPassCar());
                     blueCars++;
                     totalCars = redCars + blueCars;
