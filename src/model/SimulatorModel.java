@@ -5,6 +5,13 @@ import view.*;
 
 import java.util.Random;
 
+/**
+ * Main model class for the simulator.
+ * This class takes care of almost all the calculations needed to run the simulator.
+ *
+ * @author The Button Bashers
+ * @version 1.2
+ */
 public class SimulatorModel extends AbstractModel implements Runnable{
 
     private static final String AD_HOC = "1";
@@ -60,6 +67,13 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     private int numberOfOpenSpotsPublic;
     private Car[][][] cars;
 
+    /**
+     * Main constructor for the simulatorModel.
+     * @param numberOfFloors The number of floors the parkinglot contains
+     * @param numberOfRows   The number of rows that the parking lot has for each floor
+     * @param numberOfPlaces The number of places that the makinglot has for each row
+     * @param Reserv         used for calculating the number of subscription based places for each row
+     */
     public SimulatorModel(int numberOfFloors, int numberOfRows, int numberOfPlaces, int Reserv){
         entranceCarQueue = new CarQueue();
         entrancePassQueue = new CarQueue();
