@@ -98,8 +98,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     //    Runs te project
     public void run() {
         tick(true);
-        tickLeave();
-
+        tickLeave(true);
     }
 
     public void runOnce(){
@@ -115,12 +114,14 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         for (int i = 1; i <= 100; i++) {
         //If wait is true application will sleep till steps are done
             tick(false);
+            tickLeave(false);
         }
     }
 
     public void tickTimes10() {
         for (int i = 1; i <= 10; i++) {
             tick(false);
+            tickLeave(false);
         }
     }
 
@@ -138,7 +139,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         }
     }
 
-    public void tickLeave() {
+    public void tickLeave(boolean wait) {
         for (int floor = 0; floor < getNumberOfFloors(); floor++) {
             for (int row = 0; row < getNumberOfRows(); row++) {
                 for (int place = 0; place < getNumberOfPlaces(); place++) {
