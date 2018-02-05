@@ -69,6 +69,9 @@ public class SimulatorModel extends AbstractModel implements Runnable{
 
     /**
      * Main constructor for the simulatorModel.
+     * Calculates how many places for each row are for Subscriptions
+     * The main constructor also created a link to the main view and the controller class
+     *
      * @param numberOfFloors The number of floors the parkinglot contains
      * @param numberOfRows   The number of rows that the parking lot has for each floor
      * @param numberOfPlaces The number of places that the makinglot has for each row
@@ -102,19 +105,27 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         numberOfOpenSpotsPublic = numberOfOpenSpots - totalReserv;
         System.out.println(totalReserv);
     }
-    //    Create start method for creating a new thread
+
+    /**
+     * Start method for creating a new thread and starting it
+     */
     public void start(){
         running=true;
         StartThread = new Thread(this);
         StartThread.start();
     }
 
-    //    Runs te project
+    /**
+     * Runs class for running the simulator
+     */
     public void run() {
         tick(true);
         tickLeave(true);
     }
 
+    /**
+     *  Runs the application once to toggle all views. Otherwise the views would only be visible is start is clickedsss
+     */
     public void runOnce(){
         while(running) {
             advanceTime();
@@ -124,6 +135,10 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         notifyViews();
     }
 
+    /**
+     * Runs tick and tickleave 100 times.
+     * Used for the +100 button in the controller
+     */
     public void tickTimes100() {
         for (int i = 1; i <= 100; i++) {
             //If wait is true application will sleep till steps are done
@@ -132,6 +147,10 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         }
     }
 
+    /**
+     * Runs tick and tickleave 10 times.
+     * Used for the +10 button in the controller
+     */
     public void tickTimes10() {
         for (int i = 1; i <= 10; i++) {
             tick(false);
@@ -139,6 +158,11 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         }
     }
 
+    /**
+     * manages the ticks used for filling up the simulation
+     * uses a thread sleep to make the Simulation not fill in 1 second
+     * @param wait allows tickTimes100 and Ticktimes10 to instantly work. Otherwise the application would stop for a few seconds
+     */
     private void tick(boolean wait) {
         advanceTime();
         handleExit();
@@ -153,6 +177,10 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         }
     }
 
+    /**
+     *
+     * @param wait
+     */
     public void tickLeave(boolean wait) {
         for (int floor = 0; floor < getNumberOfFloors(); floor++) {
             for (int row = 0; row < getNumberOfRows(); row++) {
