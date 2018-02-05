@@ -215,8 +215,6 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         }
         else if(day == 1){
             day_text = "Tuesday";
-            weekProfit[0] = (int) totalProfit;
-            totalProfit = 0;
         }
         else if(day == 2){
             day_text = "Wednesday";
