@@ -6,7 +6,7 @@ import java.util.Random;
 /**
  * This class contains information regarding the cars in the parking lot.
  *
- * @author S. de Jonge
+ * @author The Button Bashers
  * @version 30-01-2018
  */
 
