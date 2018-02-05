@@ -449,11 +449,10 @@ public class SimulatorModel extends AbstractModel implements Runnable{
                 break;
             case PASS:
                 for (int i = 0; i < numberOfCars; i++) {
-                    if (blueCars < totalReserv) {
                         entrancePassQueue.addCar(new ParkingPassCar());
                         blueCars++;
                         totalCars = redCars + blueCars;
-                    }
+
                 }
                 break;
         }
