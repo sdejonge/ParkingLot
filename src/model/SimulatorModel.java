@@ -120,7 +120,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
      */
     public void run() {
         tick(true);
-        tickLeave(true);
+        tickLeave();
     }
 
     /**
@@ -143,7 +143,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         for (int i = 1; i <= 100; i++) {
             //If wait is true application will sleep till steps are done
             tick(false);
-            tickLeave(false);
+            tickLeave();
         }
     }
 
@@ -154,7 +154,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     public void tickTimes10() {
         for (int i = 1; i <= 10; i++) {
             tick(false);
-            tickLeave(false);
+            tickLeave();
         }
     }
 
@@ -178,10 +178,10 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     }
 
     /**
-     *
-     * @param wait
+     *  Makes the cars leave the Simulator.
+     *  Without this class the simulator would never have leaving cars.
      */
-    public void tickLeave(boolean wait) {
+    private void tickLeave() {
         for (int floor = 0; floor < getNumberOfFloors(); floor++) {
             for (int row = 0; row < getNumberOfRows(); row++) {
                 for (int place = 0; place < getNumberOfPlaces(); place++) {
@@ -195,13 +195,22 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         }
     }
 
+    /**
+     * calculated the amount of places the blue cars have taken up
+     * after calculating is generated a degree amount for the piechart
+     * @return The degree of blue for use in a piechart
+     */
     public int getTotalBlueSpots(){
         int totalSpots = this.numberOfFloors * this.numberOfRows * this.numberOfPlaces;
         float blueCalc = (blueCars / totalSpots);
         int blueDegree = Math.round(360 * blueCalc);
         return blueDegree;
     }
-
+    /**
+     * calculated the amount of places the red cars have taken up
+     * after calculating is generated a degree amount for the piechart
+     * @return The degree of red for use in a piechart
+     */
     public int getTotalRedSpots(){
         int totalSpots = this.numberOfFloors * this.numberOfRows * this.numberOfPlaces;
         float redCalc = redCars / totalSpots;
@@ -209,7 +218,10 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         return redDegree;
     }
 
-    public void dayToText(){
+    /**
+     * sets the day, which is a number, to a word.
+     */
+    private void dayToText(){
         if(day == 0){
             day_text = "Monday";
         }
@@ -235,6 +247,9 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         }
     }
 
+    /**
+     * calculates the time and day
+     */
     private void advanceTime(){
         // Advance the time by one minute.
         minute++;
@@ -255,7 +270,12 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         }
     }
 
-    public void setIncomingValues() {
+    /**
+     * sets the incoming values of the arrivals
+     * This makes the parking lot more realistic.
+     * When it's night there are normally not a lot of people parking
+     */
+    private void setIncomingValues() {
         if (hour >= 2 && hour < 5) {
             weekDayArrivals = 0;
             weekDayPassArrivals = 0;
@@ -282,18 +302,27 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         }
     }
 
+    /**
+     * handles the entering cars
+     */
     private void handleEntrance(){
         carsArriving();
         carsEntering(entranceCarQueue, 1);
         carsEntering(entrancePassQueue, 2);
     }
 
+    /**
+     * Handles the cars leaving
+     */
     private void handleExit(){
         carsReadyToLeave();
         carsPaying();
         carsLeaving();
     }
 
+    /**
+     * calculated the arriving cars to the parking lot
+     */
     private void carsArriving(){
         int numberOfCars=getNumberOfCars(weekDayArrivals, weekendArrivals);
         addArrivingCars(numberOfCars, AD_HOC);
@@ -301,7 +330,11 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         addArrivingCars(numberOfCars, PASS);
     }
 
-
+    /**
+     * Does the calculations of cars entering the parking lot
+     * @param queue gets cars from the queue
+     * @param carType determines is the car is Subscription based or regular
+     */
     private void carsEntering(CarQueue queue, int carType){
         int i=0;
         // Remove car from the front of the queue and assign to a parking space.
@@ -321,6 +354,9 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         }
     }
 
+    /**
+     * Calculated the cars that are ready to leave the parkinglot
+     */
     private void carsReadyToLeave(){
         // Add leaving cars to the payment queue.
         Car car = getFirstLeavingCar();
@@ -336,6 +372,9 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         }
     }
 
+    /**
+     * Calculated the paying cars
+     */
     private void carsPaying(){
         // Let cars pay.
         int i=0;
@@ -359,6 +398,9 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         }
     }
 
+    /**
+     * Removes the car from the parking lot
+     */
     private void carsLeaving(){
         // Let cars leave.
         int i=0;
@@ -368,6 +410,12 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         }
     }
 
+    /**
+     * Gets the total number of cars
+     * @param weekDay  the day of the week
+     * @param weekend  determines weekends
+     * @return         the number of cars that arrive this minute.
+     */
     private int getNumberOfCars(int weekDay, int weekend){
         Random random = new Random();
 
@@ -382,8 +430,13 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         return (int)Math.round(numberOfCarsPerHour / 60);
     }
 
+    /**
+     * Add the cars to the back of the queue.
+     * @param numberOfCars  int amount of the cars
+     * @param type          regular car of subscription
+     */
+
     private void addArrivingCars(int numberOfCars, String type){
-        // Add the cars to the back of the queue.
         switch(type) {
             case AD_HOC:
                 for (int i = 0; i < numberOfCars; i++) {
@@ -406,6 +459,10 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         }
     }
 
+    /**
+     * makes a car leave it's spot when leaving
+     * @param car checks for the car type
+     */
     private void carLeavesSpot(Car car){
         if (car instanceof AdHocCar) {
             redCars--;
@@ -417,22 +474,44 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         exitCarQueue.addCar(car);
     }
 
+    /**
+     * Get the number of floors
+     * @return the amount of floors
+     */
     public int getNumberOfFloors() {
         return numberOfFloors;
     }
+
+    /**
+     * gets the number of rows
+     * @return the number of rows
+     */
 
     public int getNumberOfRows() {
         return numberOfRows;
     }
 
+    /**
+     * Gets the number of places
+     * @return The number of places
+     */
     public int getNumberOfPlaces() {
         return numberOfPlaces;
     }
 
-    public int getNumberOfOpenSpots(){
+    /**
+     * Gets the number of open spots in the parking lot
+     * @return the number of open spots
+     */
+    private int getNumberOfOpenSpots(){
         return numberOfOpenSpots;
     }
 
+    /**
+     * Determines the location of the car
+     * @param location the location
+     * @return         spot of the car
+     */
     public Car getCarAt(Location location) {
         if (!locationIsValid(location)) {
             return null;
@@ -440,7 +519,13 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         return cars[location.getFloor()][location.getRow()][location.getPlace()];
     }
 
-    public boolean setCarAt(Location location, Car car) {
+    /**
+     * Puts a car in a location
+     * @param location the location
+     * @param car      The car
+     * @return         returns true of false for if the location is valid or not
+     */
+    private boolean setCarAt(Location location, Car car) {
         if (!locationIsValid(location)) {
             return false;
         }
@@ -454,6 +539,11 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         return false;
     }
 
+    /**
+     * Removes a car from it's spot
+     * @param location The location
+     * @return         The car
+     */
     public Car removeCarAt(Location location) {
         if (!locationIsValid(location)) {
             return null;
@@ -468,7 +558,12 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         return car;
     }
 
-    public Location getFirstFreeLocation(int locType) {
+    /**
+     * returns the first free location possible
+     * @param locType Location type
+     * @return Returns the valid location
+     */
+    private Location getFirstFreeLocation(int locType) {
         if (locType == 1){
             for (int floor = 0; floor < getNumberOfFloors(); floor++) {
                 for (int row = 0; row < getNumberOfRows(); row++) {
@@ -510,7 +605,11 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         return null;
     }
 
-    public Car getFirstLeavingCar() {
+    /**
+     * Returns the first car that is going to leave
+     * @return The car or NULL
+     */
+    private Car getFirstLeavingCar() {
         for (int floor = 0; floor < getNumberOfFloors(); floor++) {
             for (int row = 0; row < getNumberOfRows(); row++) {
                 for (int place = 0; place < getNumberOfPlaces(); place++) {
@@ -525,6 +624,12 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         return null;
     }
 
+    /**
+     * Checks if the location is valid
+     * @param location the location
+     * @return         True of false depending on if the location is valid or not
+     */
+
     private boolean locationIsValid(Location location) {
         int floor = location.getFloor();
         int row = location.getRow();
@@ -535,11 +640,23 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         return true;
     }
 
+    /**
+     * Returns the subscription amount
+     * @return The amount of subscriptions
+     */
     public int getReserv() {
         return(absReserv);
     }
 
+    /**
+     * Sets running to either true or false
+     * @param value The value of running (true or false)
+     */
     public void setRunning(boolean value) {running = value;}
 
+    /**
+     * Returns running
+     * @return True of false
+     */
     public boolean getRunning() {return running;}
 }
