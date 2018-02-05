@@ -1,5 +1,11 @@
 package model;
 
+/**
+ * The class location is used for the location where the cars are going to park.
+ *
+ * @author The Button Bashers
+ * @version 1.2
+ */
 public class Location {
 
     private int floor;
@@ -8,6 +14,9 @@ public class Location {
 
     /**
      * Constructor for objects of class model.Location
+     * @param floor the floor a car can park in
+     * @param row The row a car can park in
+     * @param place The place in said row and floor a car can park in
      */
     public Location(int floor, int row, int place) {
         this.floor = floor;
@@ -17,6 +26,7 @@ public class Location {
 
     /**
      * Implement content equality.
+     * @param obj creates an object
      */
     public boolean equals(Object obj) {
         if(obj instanceof Location) {

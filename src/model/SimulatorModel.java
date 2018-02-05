@@ -115,12 +115,15 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         for (int i = 1; i <= 100; i++) {
         //If wait is true application will sleep till steps are done
             tick(false);
+            tickLeave();
         }
     }
 
     public void tickTimes10() {
         for (int i = 1; i <= 10; i++) {
             tick(false);
+            tickLeave();
+
         }
     }
 
