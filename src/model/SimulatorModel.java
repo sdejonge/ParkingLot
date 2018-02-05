@@ -99,7 +99,6 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     public void run() {
         tick(true);
         tickLeave(true);
-
     }
 
     public void runOnce(){
