@@ -6,6 +6,13 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
+/**
+ * This is the main view, all views get displayed here
+ *
+ * @author The Button Bashers
+ * @version 1.2
+ */
+
 public class SimulatorView extends JFrame {
 
     private CarParkView carParkView;
@@ -23,6 +30,15 @@ public class SimulatorView extends JFrame {
     public JButton stop;
     public JButton honderdKeer;
     public JButton tienKeer;
+
+    /**
+     * The frame gets made and displayed and all the views get added
+     *
+     * @param model the model
+     * @param numberOfFloors amount of floors
+     * @param numberOfRows amount of rows
+     * @param numberOfPlaces amount of places per row
+     */
 
     public SimulatorView(SimulatorModel model, int numberOfFloors, int numberOfRows, int numberOfPlaces) {
         this.model = model;

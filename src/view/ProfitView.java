@@ -4,6 +4,14 @@ import model.SimulatorModel;
 
 import javax.swing.*;
 
+/**
+ * The view where all the profits get drawn
+ *
+ * @author The Button Bashers
+ * @version 1.2
+ */
+
+
 public class ProfitView extends AbstractDisplayPane {
     private SimulatorModel model;
     private JLabel profitLabel = new JLabel("Current total profit: ");
@@ -14,10 +22,19 @@ public class ProfitView extends AbstractDisplayPane {
     private JLabel estimatedProfit = new JLabel("");
     private JLabel nextProfit = new JLabel("");
 
+    /**
+     * Constructor of the class
+     * @param model the model
+     */
+
     public ProfitView(SimulatorModel model) {
         super(model);
         this.model = model;
     }
+
+    /**
+     * Updates the view 
+     */
 
     public void updateView(){
         this.add(profitLabel);
