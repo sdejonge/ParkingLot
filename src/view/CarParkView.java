@@ -5,6 +5,14 @@ import model.*;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The view where the simulator gets drawn
+ *
+ * @author The Button Bashers
+ * @version 1.2
+ *
+ */
+
 public class CarParkView extends AbstractDisplayPane {
 
     private Dimension size;
@@ -16,8 +24,15 @@ public class CarParkView extends AbstractDisplayPane {
     private int floorWidth;
 
     /**
-     * Constructor for objects of class CarPark
+     * Constructor of the class
+     * Also sets the size for the simulator
+     *
+     * @param model the model
+     * @param numberOfFloors amount of floors
+     * @param numberOfRows amount of rows
+     * @param numberOfPlaces amount of places per row
      */
+
     public CarParkView(SimulatorModel model, int numberOfFloors, int numberOfRows, int numberOfPlaces) {
         super(model);
         this.model = model;
@@ -69,6 +84,10 @@ public class CarParkView extends AbstractDisplayPane {
         }
     }
 
+    /**
+     * Updates the simulator view
+     */
+
     public void updateView() {
         // Create a new car park image if the size has changed.
         if (!size.equals(getSize())) {
@@ -89,6 +108,13 @@ public class CarParkView extends AbstractDisplayPane {
         }
         repaint();
     }
+
+    /**
+     * Sets the color of the car
+     * @param car the car
+     * @param location the location to park in
+     * @return return the color
+     */
 
     private Color setColor(Car car, Location location) {
         if (car == null) {

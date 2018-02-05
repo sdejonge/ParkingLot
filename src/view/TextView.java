@@ -5,6 +5,14 @@ import model.*;
 
 import java.awt.*;
 
+/**
+ * The view where the amount of cars are drawn
+ *
+ * @author The Button Bashers
+ * @version 1.2
+ */
+
+
 public class TextView extends AbstractDisplayPane {
 
     private SimulatorModel model;
@@ -18,11 +26,20 @@ public class TextView extends AbstractDisplayPane {
     private JLabel time = new JLabel("");
     private JLabel day = new JLabel("");
 
+    /**
+     * Constructor of the class
+     * @param model the model
+     */
+
     public TextView(SimulatorModel model){
         super(model);
         this.model = model;
     }
 
+    /**
+     * Updates the view
+     */
+    
     public void updateView(){
         this.add(redLabel);
         this.add(red);

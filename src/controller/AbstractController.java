@@ -17,6 +17,7 @@ public abstract class AbstractController implements ActionListener{
 	protected SimulatorModel model;
 
 	/**
+	 * Constructor of the class
 	 * Register the model to the controller.
 	 *
 	 * @param model the model
