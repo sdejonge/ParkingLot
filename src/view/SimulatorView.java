@@ -20,6 +20,7 @@ public class SimulatorView extends JFrame {
     private ProfitView profitView;
     private PieChartView pieChart;
     private BarChartView barView;
+    private LegendView legendView;
 
     private SimulatorModel model;
     private JPanel topPanel;
@@ -48,6 +49,7 @@ public class SimulatorView extends JFrame {
         textView = new TextView(model);
         profitView = new ProfitView(model);
         pieChart = new PieChartView(model);
+        legendView = new LegendView(model);
 
         // Initiate frame
         JFrame frame = new JFrame("Parking simulator 1.0");
@@ -67,6 +69,7 @@ public class SimulatorView extends JFrame {
         barView = new BarChartView("Occupation", model);
         barView.setSize(300, 300);
         chartPanel.add(pieChart, BorderLayout.PAGE_START);
+        chartPanel.add(legendView, BorderLayout.CENTER);
         chartPanel.add(barView, BorderLayout.PAGE_END);
 
         centerPanel = new JPanel(new BorderLayout());
