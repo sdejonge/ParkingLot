@@ -14,14 +14,14 @@ public class BarChartView extends AbstractDisplayPane {
     private Color[] colors;
     private String title;
 
-    public BarChartView(Color[] colors, String title, SimulatorModel model) {
+    public BarChartView(String title, SimulatorModel model) {
         super(model);
         size = new Dimension(0, 0);
         this.labels = new String[2];
-        this.labels[0] = "Rood";
-        this.labels[1] = "Blauw";
+        this.labels[0] = "Red";
+        this.labels[1] = "Blue";
         this.values = new double[2];
-        this.colors = colors;
+        this.colors = new Color[] {Color.RED, Color.BLUE};
         this.title = title;
     }
 
@@ -95,7 +95,7 @@ public class BarChartView extends AbstractDisplayPane {
     }
 
     public Dimension getPreferredSize() {
-        return new Dimension(300, 300);
+        return new Dimension(200, 300);
     }
 
 }
