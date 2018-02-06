@@ -65,8 +65,8 @@ public class SimulatorView extends JFrame {
         chartPanel = new JPanel();
         double[] values = {1, 2, 3};
         String[] labels = {"label1", "label2", "label3"};
-        Color[] colours = {Color.RED, Color.YELLOW, Color.BLUE};
-        barView = new BarChartView(values, labels, colours, "Titeltje", model);
+        Color[] colours = {Color.RED, Color.BLUE};
+        barView = new BarChartView(colours, "Titel", model);
         barView.setSize(300, 300);
         chartPanel.add(pieChart, BorderLayout.PAGE_START);
         chartPanel.add(barView, BorderLayout.PAGE_END);

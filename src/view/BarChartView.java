@@ -17,14 +17,20 @@ public class BarChartView extends AbstractDisplayPane {
     public BarChartView(Color[] colors, String title, SimulatorModel model) {
         super(model);
         size = new Dimension(0, 0);
-        this.labels = labels;
-        this.values = values;
+        this.labels = new String[2];
+        this.labels[0] = "Rood";
+        this.labels[1] = "Blauw";
+        this.values = new double[2];
         this.colors = colors;
         this.title = title;
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        this.values[0] = model.getRedCars();
+        this.values[1] = model.getBlueCars();
+
         if (values == null || values.length == 0) {
             return;
         }
@@ -39,6 +45,7 @@ public class BarChartView extends AbstractDisplayPane {
                 maxValue = values[i];
             }
         }
+        maxValue = model.getTotalNumberOfSpots();
 
         Dimension dim = getSize();
         int panelWidth = dim.width;
