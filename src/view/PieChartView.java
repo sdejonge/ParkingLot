@@ -56,7 +56,7 @@ class PieChartView extends AbstractDisplayPane {
      */
 
     public Dimension getPreferredSize() {
-        return new Dimension(210, 100);
+        return new Dimension(210, 210);
     }
 
 }
