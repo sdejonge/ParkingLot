@@ -36,16 +36,7 @@ public class BarChartView extends AbstractDisplayPane {
         }
 
         double minValue = 0;
-        double maxValue = 0;
-        for (int i = 0; i < values.length; i++) {
-            if (minValue > values[i]) {
-                minValue = values[i];
-            }
-            if (maxValue < values[i]) {
-                maxValue = values[i];
-            }
-        }
-        maxValue = model.getTotalNumberOfSpots();
+        double maxValue = model.getTotalNumberOfSpots();
 
         Dimension dim = getSize();
         int panelWidth = dim.width;
