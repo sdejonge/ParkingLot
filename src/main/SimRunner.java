@@ -3,6 +3,9 @@ package main;
 import model.*;
 import view.*;
 
+import javax.swing.*;
+import java.awt.*;
+
 
 /**
  * The SimRunner class implements a main method to start the simulator.

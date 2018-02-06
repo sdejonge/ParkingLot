@@ -19,11 +19,13 @@ public class SimulatorView extends JFrame {
     private TextView textView;
     private ProfitView profitView;
     private PieChartView pieChart;
+    private BarChartView barView;
 
     private SimulatorModel model;
     private JPanel topPanel;
     private JPanel centerPanel;
     private JPanel buttonPanel;
+    private JPanel chartPanel;
 
     //    Create Jbuttons
     public JButton start;
@@ -60,12 +62,22 @@ public class SimulatorView extends JFrame {
         topPanel.add(textView, BorderLayout.PAGE_START);
         topPanel.add(profitView, BorderLayout.PAGE_END);
 
+        chartPanel = new JPanel();
+        double[] values = {1, 2, 3};
+        String[] labels = {"label1", "label2", "label3"};
+        Color[] colours = {Color.RED, Color.YELLOW, Color.BLUE};
+        barView = new BarChartView(values, labels, colours, "Titeltje", model);
+        barView.setSize(300, 300);
+        chartPanel.add(pieChart, BorderLayout.PAGE_START);
+        chartPanel.add(barView, BorderLayout.PAGE_END);
+
         centerPanel = new JPanel(new BorderLayout());
         centerPanel.setBounds(10, 10, 800, 500);
         centerPanel.setSize(800, 500);
 
-        centerPanel.add(pieChart, BorderLayout.CENTER);
+        centerPanel.add(chartPanel, BorderLayout.CENTER);
         centerPanel.add(carParkView, BorderLayout.LINE_START);
+
 
         //Create buttons to show on JPanel
         start = new JButton("Start");
