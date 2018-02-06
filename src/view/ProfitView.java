@@ -52,9 +52,9 @@ public class ProfitView extends AbstractDisplayPane {
         //mondayProfit.setText(String.valueOf(model.weekProfit[0]));
         double estValue = model.estimateProfit;
         double roundEstimate = Math.round(estValue * 100.0) / 100.0;
-        estimatedProfit.setText(String.valueOf(roundEstimate));
+        estimatedProfit.setText("€ " + String.valueOf(roundEstimate));
         double dayValue = model.nextProfit;
         double roundDay = Math.round(dayValue * 100.0) / 100.0;
-        nextProfit.setText(String.valueOf(roundDay));
+        nextProfit.setText("€ " + String.valueOf(roundDay));
     }
 }
