@@ -343,10 +343,17 @@ public class SimulatorModel extends AbstractModel implements Runnable{
             Location freeLocation = getFirstFreeLocation(carType);
             if (freeLocation != null) {
                 setCarAt(freeLocation, car);
+                if (carType == 1) {
+                    redCars++;
+                }
+                else {
+                    blueCars++;
+                }
             }
             if (freeLocation == null && carType == 2) {
                 freeLocation = getFirstFreeLocation(3);
                 setCarAt(freeLocation, car);
+                blueCars++;
             }
             i++;
         }
@@ -440,7 +447,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
                 for (int i = 0; i < numberOfCars; i++) {
                     if (redCars < numberOfOpenSpotsPublic) {
                         entranceCarQueue.addCar(new AdHocCar());
-                        redCars++;
+                        //redCars++;
                         totalCars = redCars + blueCars;
                     }
                 }
@@ -448,7 +455,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
             case PASS:
                 for (int i = 0; i < numberOfCars; i++) {
                         entrancePassQueue.addCar(new ParkingPassCar());
-                        blueCars++;
+                        //blueCars++;
                         totalCars = redCars + blueCars;
 
                 }
