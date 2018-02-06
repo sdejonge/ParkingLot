@@ -16,7 +16,7 @@ public class ProfitView extends AbstractDisplayPane {
     private SimulatorModel model;
     private JLabel profitLabel = new JLabel("Current total profit: ");
     private JLabel estimatedLabel = new JLabel("Estimated profit: ");
-    private JLabel nextLabel = new JLabel("Next profit: ");
+    private JLabel nextLabel = new JLabel("Today's profit: ");
     private JLabel profit = new JLabel("");
     private JLabel mondayProfit = new JLabel("");
     private JLabel estimatedProfit = new JLabel("");
