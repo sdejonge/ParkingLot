@@ -68,7 +68,7 @@ public class SimulatorView extends JFrame {
         centerPanel.add(carParkView, BorderLayout.LINE_START);
 
         //Create buttons to show on JPanel
-        start = new JButton("start");
+        start = new JButton("Start");
         stop = new JButton("Pause");
         honderdKeer = new JButton("+100");
         tienKeer = new JButton("+10");
