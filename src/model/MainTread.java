@@ -18,6 +18,8 @@ public class MainTread extends Thread {
 
     /**
      * Runs the main thread
+     * Sleeps when running is false
+     * This is used to pause the simulation
      */
     public void run() {
         System.out.println("MainThread.run() uitgevoerd");
