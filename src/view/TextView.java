@@ -17,9 +17,9 @@ public class TextView extends AbstractDisplayPane {
 
     private SimulatorModel model;
 
-    private JLabel redLabel = new JLabel("Red cars: ");
-    private JLabel blueLabel = new JLabel("Blue cars: ");
-    private JLabel totalCarsLabel = new JLabel("Totaal aantal auto's: ");
+    private JLabel redLabel = new JLabel("Regular customers: ");
+    private JLabel blueLabel = new JLabel("Subscriptions: ");
+    private JLabel totalCarsLabel = new JLabel("Total amount of cars: ");
     private JLabel red = new JLabel("");
     private JLabel blue = new JLabel("");
     private JLabel totalCars = new JLabel("");
