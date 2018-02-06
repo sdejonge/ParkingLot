@@ -18,8 +18,8 @@ public class BarChartView extends AbstractDisplayPane {
         super(model);
         size = new Dimension(0, 0);
         this.labels = new String[2];
-        this.labels[0] = "Red";
-        this.labels[1] = "Blue";
+        this.labels[0] = "Regular";
+        this.labels[1] = "Subscriber";
         this.values = new double[2];
         this.colors = new Color[] {Color.RED, Color.BLUE};
         this.title = title;
@@ -95,7 +95,7 @@ public class BarChartView extends AbstractDisplayPane {
     }
 
     public Dimension getPreferredSize() {
-        return new Dimension(200, 300);
+        return new Dimension(150, 300);
     }
 
 }
