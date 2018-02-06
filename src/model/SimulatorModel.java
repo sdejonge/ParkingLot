@@ -65,6 +65,7 @@ public class SimulatorModel extends AbstractModel implements Runnable{
     private int totalReserv;
     private int numberOfOpenSpots;
     private int numberOfOpenSpotsPublic;
+    private double totalNumberOfSpots; //De totale hoeveelheid plaatsen in de garage
     private Car[][][] cars;
 
     /**
@@ -95,6 +96,8 @@ public class SimulatorModel extends AbstractModel implements Runnable{
         a = (getNumberOfPlaces() * a);
         absReserv = (int)a;
         System.out.println("absReserv: " + absReserv);
+
+        totalNumberOfSpots = (this.numberOfOpenSpots);
 
         weekProfit = new int[7];
 
@@ -663,4 +666,9 @@ public class SimulatorModel extends AbstractModel implements Runnable{
      * @return True of false
      */
     public boolean getRunning() {return running;}
+
+    public double getRedCars() {return (double)redCars;}
+    public double getBlueCars() {return (double)blueCars;}
+
+    public double getTotalNumberOfSpots() {return totalNumberOfSpots; }
 }
